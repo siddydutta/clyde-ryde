@@ -72,3 +72,23 @@ pre-commit install
 ```bash
 python manage.py runserver
 ```
+
+
+## Docker Support
+
+### 0. Install [Docker Engine](https://docs.docker.com/engine/install/)
+Verify the installation:
+```bash
+docker --version
+docker-compose --version
+```
+
+### 1. Build and Run the Containers
+```bash
+docker-compose up --build
+```
+
+### 2. Running Commands in the Web Container
+```bash
+docker-compose exec web python manage.py showmigrations
+```
