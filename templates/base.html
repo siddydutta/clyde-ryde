@@ -15,7 +15,18 @@
         <h1>Welcome to Clyde Ryde</h1>
         <nav>
             <ul>
-                <li><a href="{% url 'register' %}">Register</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'customer_dashboard' %}">Dashboard</a></li>
+                    <li>
+                        <form id="logout-form" action="{% url 'customer_logout' %}" method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" style="background:none; border:none; color:#007bff; cursor:pointer; padding:0; text-decoration:underline;">Logout</button>
+                        </form>
+                    </li>
+                {% else %}
+                    <li><a href="{% url 'customer_register' %}">Register</a></li>
+                    <li><a href="{% url 'customer_login' %}">Login</a></li>
+                {% endif %}
             </ul>
         </nav>
     </header>
