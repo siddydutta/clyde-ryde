@@ -1,8 +1,9 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block title %}Clyde Ryde | Home{% endblock %}
 
 {% block content %}
-    <h1>Clyde Ryde</h1>
-    <p>Welcome to our E-Vehicle Share System. Here you can rent electric vehicles, manage your account, and more!</p>
+    <h1>{% trans "Welcome to Clyde Ryde!" %}</h1>
+    <p>{% trans "Welcome to our E-Vehicle Share System. Here you can rent electric vehicles, manage your account, and more!" %}</p>
 {% endblock %}

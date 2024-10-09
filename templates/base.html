@@ -1,7 +1,8 @@
 <!DOCTYPE html>
+{% load i18n %}
 {% load static %}
 
-<html lang="en">
+<html lang="{{ LANGUAGE_CODE }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,7 +12,6 @@
 </head>
 <body>
 
-    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="{% url 'home' %}">Clyde Ryde</a>
@@ -20,10 +20,27 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            {% trans "Language" %}
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="languageDropdown">
+                            {% get_current_language as LANGUAGE_CODE %}
+                            {% get_available_languages as LANGUAGES %}
+                            {% get_language_info_list for LANGUAGES as languages %}
+                            {% for language in languages %}
+                                <li>
+                                    <a class="dropdown-item{% if language.code == LANGUAGE_CODE %} active{% endif %}"
+                                       href="/{{ language.code }}/">
+                                        {{ language.name_local }} ({{ language.code }})
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'home' %}">Home</a>
                     </li>
-                    <!-- Add more nav items as needed -->
                 </ul>
                 <ul class="navbar-nav">
                     {% if user.is_authenticated %}
