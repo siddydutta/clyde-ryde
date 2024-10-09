@@ -3,6 +3,9 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, TemplateView
+from django.contrib import messages
+from django.utils.translation import gettext_lazy as _
+
 
 from .forms import CustomerRegistrationForm
 
@@ -27,7 +30,11 @@ class CustomerLoginView(LoginView):
 
 
 class CustomerLogoutView(LogoutView):
-    next_page = reverse_lazy('customer_dashboard')
+    next_page = reverse_lazy('home')
+
+    def dispatch(self, request, *args, **kwargs):
+        messages.success(request, _('You have been successfully logged out.'))
+        return super().dispatch(request, *args, **kwargs)
 
 
 class CustomerDashboardView(TemplateView):

@@ -45,7 +45,10 @@
                 <ul class="navbar-nav">
                     {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'customer_logout' %}">Logout</a>
+                            <form method="post" action="{% url 'customer_logout' %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-link nav-link">Logout</button>
+                            </form>
                         </li>
                     {% else %}
                         <li class="nav-item">
@@ -66,6 +69,15 @@
         {% block content %}
         {% endblock %}
     </div>
+
+    {% for message in messages %}
+        <div class="alert {{ message.tags }} alert-dismissible shadow fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            {{ message | safe }}
+        </div>
+    {% endfor %}
 
     <!-- Footer Section -->
     <footer>
