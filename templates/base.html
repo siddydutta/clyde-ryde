@@ -50,7 +50,13 @@
                 <ul class="navbar-nav">
                     {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'customer_dashboard' %}">{% trans "Dashboard" %}</a>
+                            {% if user.type == 'customer' %}
+                                <a class="nav-link" href="{% url 'customer_dashboard' %}">{% trans "Dashboard" %}</a>
+                            {% elif user.type == 'operator' %}
+                                <a class="nav-link" href="{% url 'operator_dashboard' %}">{% trans "Dashboard" %}</a>
+                            {% elif user.type == 'manager' %}
+                                <a class="nav-link" href="{% url 'manager_dashboard' %}">{% trans "Dashboard" %}</a>
+                            {% endif %}
                         </li>
                         <li class="nav-item">
                             <form method="post" action="{% url 'customer_logout' %}">
