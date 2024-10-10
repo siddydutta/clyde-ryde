@@ -30,4 +30,5 @@ urlpatterns += i18n_patterns(
     path('admin/', admin.site.urls),
     path('', include('core.urls')),
     path('user/', include('users.urls')),
+    path('customer/', include('customers.urls')),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

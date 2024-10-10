@@ -41,6 +41,12 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'home' %}">Home</a>
                     </li>
+
+                    {% if user.is_authenticated and user.user_type == 'customer' %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'location_list' %}">{% trans "Rent a Vehicle" %}</a>
+                        </li>
+                    {% endif %}
                 </ul>
                 <ul class="navbar-nav">
                     {% if user.is_authenticated %}
