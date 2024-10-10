@@ -31,4 +31,6 @@ urlpatterns += i18n_patterns(
     path('', include('core.urls')),
     path('user/', include('users.urls')),
     path('customer/', include('customers.urls')),
+    path('operator/', include('operators.urls')),
+    path('manager/', include('managers.urls')),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

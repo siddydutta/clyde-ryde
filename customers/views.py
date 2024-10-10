@@ -1,10 +1,22 @@
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, TemplateView
 from django.views.generic.edit import CreateView
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404
 from core.models import Location, Vehicle
 from django.utils import timezone
+
+from customers.mixins import LoginRequiredMixin
+from users.models import CustomUser
+from users.views import BaseUserLoginView
+
+
+class LoginView(BaseUserLoginView):
+    success_url = reverse_lazy('customer_dashboard')
+    user_type = CustomUser.Type.CUSTOMER
+
+
+class DashboardView(LoginRequiredMixin, TemplateView):
+    template_name = 'customers/dashboard.html'
 
 
 class LocationListView(LoginRequiredMixin, ListView):

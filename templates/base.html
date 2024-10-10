@@ -41,8 +41,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'home' %}">Home</a>
                     </li>
-
-                    {% if user.is_authenticated and user.user_type == 'customer' %}
+                    {% if user.is_authenticated and user.type == 'customer' %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'location_list' %}">{% trans "Rent a Vehicle" %}</a>
                         </li>
@@ -51,17 +50,27 @@
                 <ul class="navbar-nav">
                     {% if user.is_authenticated %}
                         <li class="nav-item">
+                            <a class="nav-link" href="{% url 'customer_dashboard' %}">{% trans "Dashboard" %}</a>
+                        </li>
+                        <li class="nav-item">
                             <form method="post" action="{% url 'customer_logout' %}">
                                 {% csrf_token %}
-                                <button type="submit" class="btn btn-link nav-link">Logout</button>
+                                <button type="submit" class="btn btn-link nav-link">{% trans "Logout" %}</button>
                             </form>
                         </li>
                     {% else %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'customer_login' %}">Login</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="loginDropdown" role="button" data-toggle="dropdown" aria-expanded="false">
+                                {% trans "Login" %}
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="loginDropdown">
+                                <li><a class="dropdown-item" href="{% url 'customer_login' %}">{% trans "Customer" %}</a></li>
+                                <li><a class="dropdown-item" href="{% url 'operator_login' %}">{% trans "Operator" %}</a></li>
+                                <li><a class="dropdown-item" href="{% url 'manager_login' %}">{% trans "Manager" %}</a></li>
+                            </ul>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'customer_register' %}">Register</a>
+                            <a class="nav-link" href="{% url 'customer_register' %}">{% trans "Register" %}</a>
                         </li>
                     {% endif %}
                 </ul>
@@ -87,9 +96,12 @@
 
     <!-- Footer Section -->
     <footer>
-        <p>&copy; 2024 Clyde Ryde. All rights reserved.</p>
+        <p>&copy; {% trans "2024 Clyde Ryde. All rights reserved." %}</p>
     </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
