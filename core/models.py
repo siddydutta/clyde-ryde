@@ -38,7 +38,9 @@ class Vehicle(models.Model):
         IN_USE = ('in_use', _('In use'))
 
     code = models.CharField(max_length=6, unique=True, primary_key=True)
-    status = models.CharField(max_length=10, choices=Status.choices)
+    status = models.CharField(
+        max_length=10, choices=Status.choices, default=Status.AVAILABLE
+    )
     type = models.ForeignKey(
         VehicleType, on_delete=models.CASCADE, related_name='vehicles'
     )
@@ -53,11 +55,10 @@ class Vehicle(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.code:
-            self.code = self.generate_unique_code()
+            self.code = self.__generate_unique_code()
         super().save(*args, **kwargs)
 
-    @staticmethod
-    def generate_unique_code():
+    def __generate_unique_code(self):
         while True:
             code = str(random.randint(100000, 999999))
             if not Vehicle.objects.filter(code=code).exists():
