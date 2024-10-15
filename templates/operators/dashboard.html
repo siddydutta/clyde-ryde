@@ -1,9 +1,16 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
-{% block title %}Dashboard{% endblock %}
+{% block title %}
+    Dashboard
+{% endblock title %}
+
+{% block navbar %}
+    {% include "components/navbar.html" %}
+{% endblock navbar %}
 
 {% block content %}
-<h1>Operator Dashboard</h1>
-<h2>Welcome, {{ user.username }}!!</h2>
-
-{% endblock %}
+    <div class="container mt-5 pt-4">
+        <h1>Operator Dashboard</h1>
+        <h2>Welcome, {{ user.username }}!!</h2>
+    </div>
+{% endblock content %}

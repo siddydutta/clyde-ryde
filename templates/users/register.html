@@ -1,12 +1,20 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
-{% block title %}Registration{% endblock %}
+{% block title %}
+    Registration
+{% endblock title %}
+
+{% block navbar %}
+    {% include "components/navbar.html" %}
+{% endblock navbar %}
 
 {% block content %}
-<h2>Register as a Customer</h2>
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Register</button>
-</form>
-{% endblock %}
+    <div class="container mt-5 pt-4">
+        <h2>Register as a Customer</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Register</button>
+        </form>
+    </div>
+{% endblock content %}

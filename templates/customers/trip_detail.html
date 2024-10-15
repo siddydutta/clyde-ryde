@@ -1,56 +1,55 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+
 {% load i18n %}
 {% load tz %}
+{% block navbar %}
+    {% include "components/navbar.html" %}
+{% endblock navbar %}
 
 {% block content %}
-  <h2>{% trans "Trip Details" %}</h2>
-
-  <h3>{% trans "Vehicle" %}: {{ trip.vehicle.type.model }} - {{ trip.vehicle.type.brand }}</h3>
-
-  <p>{% trans "User:" %} {{ trip.user }}</p>
-  <p>{% trans "Start Time:" %} {{ trip.start_time|timezone:"Europe/London" }}</p>
-  <p>{% trans "Start Location:" %} {{ trip.start_location.name }}</p>
-
-  {% if trip.end_time %}
-    <p>{% trans "End Time:" %} {{ trip.end_time|timezone:"Europe/London" }}</p>
-    <p>{% trans "End Location:" %} {{ trip.end_location.name }}</p>
-    <p>{% trans "Duration:" %} {{ trip.duration }} seconds</p>
-    <p>{% trans "Cost:" %} {{ trip.compute_cost }}</p>
-    <p>{% trans "Payment Status:" %} {{ trip.payment.status }}</p>
-    {% if trip.payment.status == 'pending' %}
-    <form method="POST" action="{% url 'trip_payment' trip.pk trip.payment.pk %}">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-primary">Make Payment</button>
-    </form>
-    {% endif %}
-
-
-  {% else %}
-      <p>{% trans "This trip is currently in progress." %}</p>
-      <h4>{% trans "Return Vehicle" %}</h4>
-      <form method="POST" action="{% url 'return_vehicle' trip.pk %}">
-          {% csrf_token %}
-          <div class="form-group">
-            <label for="id_end_location">{% trans "End Location:" %}</label>
-            {{ return_vehicle_form.end_location }}
-            {% if return_vehicle_form.end_location.errors %}
-                <div class="invalid-feedback">
-                    {% for error in return_vehicle_form.end_location.errors %}
-                        <p>{{ error }}</p>
-                    {% endfor %}
-                </div>
+    <div class="container mt-5 pt-4">
+        <h2>{% trans "Trip Details" %}</h2>
+        <h3>{% trans "Vehicle" %}: {{ trip.vehicle.type.model }} - {{ trip.vehicle.type.brand }}</h3>
+        <p>{% trans "User:" %} {{ trip.user }}</p>
+        <p>{% trans "Start Time:" %} {{ trip.start_time|timezone:"Europe/London" }}</p>
+        <p>{% trans "Start Location:" %} {{ trip.start_location.name }}</p>
+        {% if trip.end_time %}
+            <p>{% trans "End Time:" %} {{ trip.end_time|timezone:"Europe/London" }}</p>
+            <p>{% trans "End Location:" %} {{ trip.end_location.name }}</p>
+            <p>{% trans "Duration:" %} {{ trip.duration }} seconds</p>
+            <p>{% trans "Cost:" %} {{ trip.compute_cost }}</p>
+            <p>{% trans "Payment Status:" %} {{ trip.payment.status }}</p>
+            {% if trip.payment.status == 'pending' %}
+                <form method="post"
+                      action="{% url 'trip_payment' trip.pk trip.payment.pk %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary">Make Payment</button>
+                </form>
             {% endif %}
-        </div>
-          <button type="submit" class="btn btn-success">{% trans "Return Vehicle" %}</button>
-      </form>
-  {% endif %}
-
-  <form method="POST" action="{% url 'report_vehicle' trip.pk %}">
-      {% csrf_token %}
-      <button type="submit" class="btn btn-danger" {% if trip.vehicle.status == 'defective' %}disabled{% endif %}>{% trans "Report" %}</button>
-  </form>
-
-  <a href="{% url 'location_detail' trip.vehicle.location.pk %}" class="btn btn-secondary">
-      {% trans "Back to Location" %}
-  </a>
-{% endblock %}
+        {% else %}
+            <p>{% trans "This trip is currently in progress." %}</p>
+            <h4>{% trans "Return Vehicle" %}</h4>
+            <form method="post" action="{% url 'return_vehicle' trip.pk %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="id_end_location">{% trans "End Location:" %}</label>
+                    {{ return_vehicle_form.end_location }}
+                    {% if return_vehicle_form.end_location.errors %}
+                        <div class="invalid-feedback">
+                            {% for error in return_vehicle_form.end_location.errors %}<p>{{ error }}</p>{% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <button type="submit" class="btn btn-success">{% trans "Return Vehicle" %}</button>
+            </form>
+        {% endif %}
+        <form method="post" action="{% url 'report_vehicle' trip.pk %}">
+            {% csrf_token %}
+            <button type="submit"
+                    class="btn btn-danger"
+                    {% if trip.vehicle.status == 'defective' %}disabled{% endif %}>{% trans "Report" %}</button>
+        </form>
+        <a href="{% url 'location_detail' trip.vehicle.location.pk %}"
+           class="btn btn-secondary">{% trans "Back to Location" %}</a>
+    </div>
+{% endblock content %}
