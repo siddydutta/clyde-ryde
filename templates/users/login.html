@@ -1,12 +1,20 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
-{% block title %}Login{% endblock %}
+{% block title %}
+    Login
+{% endblock title %}
+
+{% block navbar %}
+    {% include "components/navbar.html" %}
+{% endblock navbar %}
 
 {% block content %}
-<h2>Login as a {{ user_type }}</h2>
-<form method="POST">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Login</button>
-</form>
-{% endblock %}
+    <div class="container mt-5 pt-4">
+        <h2>Login as a {{ user_type }}</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Login</button>
+        </form>
+    </div>
+{% endblock content %}

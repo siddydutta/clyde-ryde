@@ -1,19 +1,29 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+
 {% load i18n %}
+{% block navbar %}
+    {% include "components/navbar.html" %}
+{% endblock navbar %}
 
 {% block content %}
-  <h2>{{ location.name }}</h2>
-  <p>{% trans "Address:" %} {{ location.address }}</p>
-  <h3>{% trans "Available Vehicles" %}</h3>
-
-  <ul>
-    {% for vehicle in available_vehicles %}
-      <li>{{ vehicle.type.model }} - {{ vehicle.type.brand }}
-        <a href="#" class="btn btn-primary">{% trans "Rent" %}</a>
-
-      </li>
-    {% empty %}
-      <li>{% trans "No vehicles available at this location." %}</li>
-    {% endfor %}
-  </ul>
-{% endblock %}
+    <div class="container mt-5 pt-4">
+        <h2>{{ location.name }}</h2>
+        <p>{% trans "Address:" %} {{ location.address }}</p>
+        <h3>{% trans "Available Vehicles" %}</h3>
+        <ul>
+            {% for vehicle in available_vehicles %}
+                <li>
+                    {{ vehicle.code }} - {{ vehicle.type.model }} - {{ vehicle.type.brand }}
+                    <form action="{% url 'rent_vehicle' vehicle.code %}"
+                          method="post"
+                          style="display:inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-primary">{% trans "Rent" %}</button>
+                    </form>
+                </li>
+            {% empty %}
+                <li>{% trans "No vehicles available at this location." %}</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock content %}

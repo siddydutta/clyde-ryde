@@ -1,13 +1,21 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
+
 {% load i18n %}
+{% block navbar %}
+    {% include "components/navbar.html" %}
+{% endblock navbar %}
 
 {% block content %}
-  <h2>{% trans "Available Locations" %}</h2>
-  <ul>
-    {% for location in locations %}
-      <li><a href="{% url 'location_detail' location.pk %}">{{ location.name }}</a></li>
-    {% empty %}
-      <li>{% trans "No locations available." %}</li>
-    {% endfor %}
-  </ul>
-{% endblock %}
+    <div class="container mt-5 pt-4">
+        <h2>{% trans "Available Locations" %}</h2>
+        <ul>
+            {% for location in locations %}
+                <li>
+                    <a href="{% url 'location_detail' location.pk %}">{{ location.name }}</a>
+                </li>
+            {% empty %}
+                <li>{% trans "No locations available." %}</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock content %}
