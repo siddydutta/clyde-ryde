@@ -1,9 +1,10 @@
 from django.views.generic import ListView, DetailView, TemplateView
 from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
-from django.shortcuts import get_object_or_404
-from core.models import Location, Vehicle
+from django.shortcuts import get_object_or_404, redirect
+from core.models import Location, Trip, Vehicle
 from django.utils import timezone
+from django.contrib import messages
 
 from customers.mixins import LoginRequiredMixin
 from users.models import CustomUser
@@ -36,21 +37,23 @@ class LocationDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
-# class RentVehicleView(LoginRequiredMixin, CreateView):
-#     model = Rental
-#     fields = ['vehicle']
-#     template_name = 'customers/rent_vehicle.html'
-#     success_url = reverse_lazy('customer_dashboard')
+class RentVehicleView(LoginRequiredMixin, CreateView):
+    def post(self, request, vehicle_code, *arg, **kwargs):
+        vehicle = get_object_or_404(
+            Vehicle, code=vehicle_code, status=Vehicle.Status.AVAILABLE
+        )
+        trip = Trip.objects.create(
+            user=request.user,
+            vehicle=vehicle,
+            start_time=timezone.now(),
+            start_location=vehicle.location,
+            status=Trip.Status.IN_PROGRESS,
+        )
 
-#     def form_valid(self, form):
-#         form.instance.user = self.request.user
-#         form.instance.start_location = form.instance.vehicle.location
-#         form.instance.vehicle.status = 'IN_USE'
-#         form.instance.vehicle.save()
-#         return super().form_valid(form)
+        vehicle.status = Vehicle.Status.IN_USE
+        vehicle.save()
 
-#     def get_form(self, form_class=None):
-#         form = super().get_form(form_class)
-#         location = get_object_or_404(Location, pk=self.kwargs['location_id'])
-#         form.fields['vehicle'].queryset = Vehicle.objects.filter(location=location, status='AVAILABLE')
-#         return form
+        messages.success(request, f'You have successfully rented {vehicle.type.model}.')
+
+        # TODO Create Trip Detail Page
+        return redirect('customer_dashboard')

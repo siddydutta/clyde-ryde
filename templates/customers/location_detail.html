@@ -8,9 +8,11 @@
 
   <ul>
     {% for vehicle in available_vehicles %}
-      <li>{{ vehicle.type.model }} - {{ vehicle.type.brand }}
-        <a href="#" class="btn btn-primary">{% trans "Rent" %}</a>
-
+      <li>{{vehicle.code}} - {{ vehicle.type.model }} - {{ vehicle.type.brand }}
+        <form action="{% url 'rent_vehicle' vehicle.code %}" method="post" style="display:inline;">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-primary">{% trans "Rent" %}</button>
+        </form>
       </li>
     {% empty %}
       <li>{% trans "No vehicles available at this location." %}</li>
