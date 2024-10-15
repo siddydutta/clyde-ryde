@@ -6,6 +6,7 @@ from customers.views import (
     LoginView,
     RentVehicleView,
     TripDetailView,
+    ReturnVehicleView,
 )
 
 urlpatterns = [
@@ -15,4 +16,7 @@ urlpatterns = [
     path('locations/<int:pk>/', LocationDetailView.as_view(), name='location_detail'),
     path('rent/<int:code>/', RentVehicleView.as_view(), name='rent_vehicle'),
     path('trips/<int:pk>/', TripDetailView.as_view(), name='trip_detail'),
+    path(
+        'trip/<int:trip_id>/return/', ReturnVehicleView.as_view(), name='return_vehicle'
+    ),
 ]

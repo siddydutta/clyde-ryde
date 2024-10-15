@@ -12,12 +12,28 @@
   <p>{% trans "Start Location:" %} {{ trip.start_location.name }}</p>
 
   {% if trip.end_time %}
-      <p>{% trans "End Time:" %} {{ trip.end_time }}</p>
+      <p>{% trans "End Time:" %} {{ trip.end_time|timezone:"Europe/London" }}</p>
       <p>{% trans "End Location:" %} {{ trip.end_location.name }}</p>
       <p>{% trans "Duration:" %} {{ trip.duration }} seconds</p>
       <p>{% trans "Cost:" %} {{ trip.compute_cost }}</p>
   {% else %}
       <p>{% trans "This trip is currently in progress." %}</p>
+      <h4>{% trans "Return Vehicle" %}</h4>
+      <form method="POST" action="{% url 'return_vehicle' trip.pk %}">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="id_end_location">{% trans "End Location:" %}</label>
+            {{ return_vehicle_form.end_location }}
+            {% if return_vehicle_form.end_location.errors %}
+                <div class="invalid-feedback">
+                    {% for error in return_vehicle_form.end_location.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+          <button type="submit" class="btn btn-success">{% trans "Return Vehicle" %}</button>
+      </form>
   {% endif %}
 
   <a href="{% url 'location_detail' trip.vehicle.location.pk %}" class="btn btn-secondary">

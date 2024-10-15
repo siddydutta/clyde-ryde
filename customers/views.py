@@ -6,6 +6,8 @@ from django.shortcuts import get_object_or_404, redirect
 from core.models import Location, Trip, Vehicle
 from django.utils import timezone
 from django.contrib import messages
+from django.views import View
+from customers.forms import ReturnVehicleForm
 
 from customers.mixins import LoginRequiredMixin
 from users.models import CustomUser
@@ -64,3 +66,26 @@ class TripDetailView(LoginRequiredMixin, DetailView):
 
     def get_queryset(self) -> QuerySet[Trip]:
         return super().get_queryset().filter(user=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['return_vehicle_form'] = ReturnVehicleForm()
+        return context
+
+
+class ReturnVehicleView(LoginRequiredMixin, View):
+    def post(self, request, trip_id):
+        trip = get_object_or_404(Trip, id=trip_id, user=request.user)
+        # Check if trip is ongoing (i.e., has no end_time yet)
+        if trip.end_time is None:
+            form = ReturnVehicleForm(request.POST, instance=trip)
+            if form.is_valid():
+                trip.end_location = form.cleaned_data['end_location']
+                trip.end_time = timezone.now()
+                trip.status = Trip.Status.COMPLETED
+                trip.vehicle.location = form.cleaned_data['end_location']
+                trip.vehicle.status = Vehicle.Status.AVAILABLE
+                trip.vehicle.save(update_fields=['location', 'status'])
+                trip.save()
+                return redirect('trip_detail', pk=trip.pk)
+        return redirect('trip_detail', pk=trip.pk)
