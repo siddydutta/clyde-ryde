@@ -54,3 +54,4 @@ class TripAdmin(admin.ModelAdmin):
         'end_location',
     )
     list_filter = ('status',)
+    autocomplete_fields = ('end_location',)

@@ -1,3 +1,4 @@
+from django.db.models.query import QuerySet
 from django.views.generic import ListView, DetailView, TemplateView
 from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
@@ -38,10 +39,8 @@ class LocationDetailView(LoginRequiredMixin, DetailView):
 
 
 class RentVehicleView(LoginRequiredMixin, CreateView):
-    def post(self, request, vehicle_code, *arg, **kwargs):
-        vehicle = get_object_or_404(
-            Vehicle, code=vehicle_code, status=Vehicle.Status.AVAILABLE
-        )
+    def post(self, request, code, *arg, **kwargs):
+        vehicle = get_object_or_404(Vehicle, code=code, status=Vehicle.Status.AVAILABLE)
         trip = Trip.objects.create(
             user=request.user,
             vehicle=vehicle,
@@ -51,9 +50,17 @@ class RentVehicleView(LoginRequiredMixin, CreateView):
         )
 
         vehicle.status = Vehicle.Status.IN_USE
-        vehicle.save()
+        vehicle.save(update_fields=['status'])
 
         messages.success(request, f'You have successfully rented {vehicle.type.model}.')
 
-        # TODO Create Trip Detail Page
-        return redirect('customer_dashboard')
+        return redirect('trip_detail', pk=trip.pk)
+
+
+class TripDetailView(LoginRequiredMixin, DetailView):
+    model = Trip
+    template_name = 'customers/trip_detail.html'
+    context_object_name = 'trip'
+
+    def get_queryset(self) -> QuerySet[Trip]:
+        return super().get_queryset().filter(user=self.request.user)
