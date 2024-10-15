@@ -3,7 +3,7 @@ import random
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.core.validators import MaxValueValidator, MinValueValidator
-from django.contrib.auth import get_user_model
+from django.conf import settings
 from typing import Optional
 from decimal import Decimal
 
@@ -78,7 +78,10 @@ class Trip(models.Model):
         COMPLETED = ('completed', _('Completed'))
 
     user = models.ForeignKey(
-        get_user_model(), null=True, on_delete=models.SET_NULL, related_name='trips'
+        settings.AUTH_USER_MODEL,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name='trips',
     )
     vehicle = models.ForeignKey(
         Vehicle, null=True, on_delete=models.SET_NULL, related_name='trips'
