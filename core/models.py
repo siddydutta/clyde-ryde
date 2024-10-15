@@ -39,6 +39,7 @@ class Vehicle(models.Model):
     class Status(models.TextChoices):
         AVAILABLE = ('available', _('Available'))
         IN_USE = ('in_use', _('In use'))
+        DEFECTIVE = ('defective', _('Defective'))
 
     code = models.CharField(max_length=6, unique=True, primary_key=True)
     status = models.CharField(

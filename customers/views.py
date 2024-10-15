@@ -41,7 +41,7 @@ class LocationDetailView(LoginRequiredMixin, DetailView):
 
 
 class RentVehicleView(LoginRequiredMixin, CreateView):
-    def post(self, request, code, *arg, **kwargs):
+    def post(self, request, code: int):
         vehicle = get_object_or_404(Vehicle, code=code, status=Vehicle.Status.AVAILABLE)
         trip = Trip.objects.create(
             user=request.user,
@@ -52,7 +52,7 @@ class RentVehicleView(LoginRequiredMixin, CreateView):
         )
 
         vehicle.status = Vehicle.Status.IN_USE
-        vehicle.save(update_fields=['status'])
+        vehicle.save()
 
         messages.success(request, f'You have successfully rented {vehicle.type.model}.')
 
@@ -74,7 +74,7 @@ class TripDetailView(LoginRequiredMixin, DetailView):
 
 
 class ReturnVehicleView(LoginRequiredMixin, View):
-    def post(self, request, trip_id):
+    def post(self, request, trip_id: int):
         trip = get_object_or_404(Trip, id=trip_id, user=request.user)
         # Check if trip is ongoing (i.e., has no end_time yet)
         if trip.end_time is None:
@@ -84,8 +84,21 @@ class ReturnVehicleView(LoginRequiredMixin, View):
                 trip.end_time = timezone.now()
                 trip.status = Trip.Status.COMPLETED
                 trip.vehicle.location = form.cleaned_data['end_location']
-                trip.vehicle.status = Vehicle.Status.AVAILABLE
-                trip.vehicle.save(update_fields=['location', 'status'])
+                if trip.vehicle.status == Vehicle.Status.IN_USE:
+                    trip.vehicle.status = Vehicle.Status.AVAILABLE
+                trip.vehicle.save()
                 trip.save()
                 return redirect('trip_detail', pk=trip.pk)
+        return redirect('trip_detail', pk=trip.pk)
+
+
+class ReportVehicleView(LoginRequiredMixin, View):
+    def post(self, request, trip_id: int):
+        trip = get_object_or_404(Trip, id=trip_id, user=request.user)
+        if trip.vehicle.status == Vehicle.Status.DEFECTIVE:
+            messages.error(request, 'The vehicle is already reported!')
+        else:
+            trip.vehicle.status = Vehicle.Status.DEFECTIVE
+            trip.vehicle.save()
+            messages.success(request, 'The vehicle has been reported as defective.')
         return redirect('trip_detail', pk=trip.pk)

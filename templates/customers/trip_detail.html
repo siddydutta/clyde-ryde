@@ -36,6 +36,11 @@
       </form>
   {% endif %}
 
+  <form method="POST" action="{% url 'report_vehicle' trip.pk %}">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger" {% if trip.vehicle.status == 'defective' %}disabled{% endif %}>{% trans "Report" %}</button>
+  </form>
+
   <a href="{% url 'location_detail' trip.vehicle.location.pk %}" class="btn btn-secondary">
       {% trans "Back to Location" %}
   </a>
