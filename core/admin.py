@@ -1,5 +1,5 @@
 from django.contrib import admin
-from core.models import Location, VehicleType, Vehicle
+from core.models import Location, Trip, VehicleType, Vehicle
 
 
 @admin.register(Location)
@@ -42,3 +42,15 @@ class VehicleAdmin(admin.ModelAdmin):
         'location',
     )
     search_fields = ('code__startswith',)
+
+
+@admin.register(Trip)
+class TripAdmin(admin.ModelAdmin):
+    list_display = (
+        'user',
+        'vehicle',
+        'status',
+        'start_location',
+        'end_location',
+    )
+    list_filter = ('status',)
