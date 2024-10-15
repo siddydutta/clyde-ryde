@@ -8,6 +8,7 @@ from customers.views import (
     TripDetailView,
     ReturnVehicleView,
     ReportVehicleView,
+    TripPayment,
 )
 
 urlpatterns = [
@@ -22,5 +23,10 @@ urlpatterns = [
     ),
     path(
         'trip/<int:trip_id>/report/', ReportVehicleView.as_view(), name='report_vehicle'
+    ),
+    path(
+        'trip/<int:trip_id>/pay/<int:payment_id>/',
+        TripPayment.as_view(),
+        name='trip_payment',
     ),
 ]

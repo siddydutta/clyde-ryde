@@ -84,9 +84,7 @@ class ReturnVehicleView(LoginRequiredMixin, View):
                 trip_cost = trip.compute_cost()
                 payment = Payment.objects.create(trip=trip, amount=trip_cost)
                 if request.user.wallet.debit(trip_cost):
-                    payment.status = Payment.Status.COMPLETED
-                    payment.paid_at = timezone.now()
-                    payment.save(update_fields=['status', 'paid_at'])
+                    payment.complete_payment()
                     messages.success(
                         request,
                         f'Trip completed! You have been charged {trip_cost:.2f}.',
@@ -109,3 +107,18 @@ class ReportVehicleView(LoginRequiredMixin, View):
             trip.vehicle.save()
             messages.success(request, 'The vehicle has been reported as defective.')
         return redirect('trip_detail', pk=trip.pk)
+
+
+class TripPayment(LoginRequiredMixin, View):
+    def post(self, request, trip_id: int, payment_id: int):
+        payment = get_object_or_404(Payment, id=payment_id)
+        trip_cost = payment.trip.compute_cost()
+        if request.user.wallet.debit(trip_cost):
+            payment.complete_payment()
+            messages.success(
+                request,
+                f'You have been charged {trip_cost:.2f}.',
+            )
+        else:
+            messages.error(request, 'Insufficient balance. Please top-up your wallet.')
+        return redirect('trip_detail', pk=payment.trip.pk)

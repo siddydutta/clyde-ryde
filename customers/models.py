@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
+from django.utils import timezone
 from decimal import Decimal
 
 from core.models import Trip
@@ -41,3 +42,8 @@ class Payment(models.Model):
 
     def __str__(self):
         return f'{self.trip} - {self.amount}'
+
+    def complete_payment(self):
+        self.status = Payment.Status.COMPLETED
+        self.paid_at = timezone.now()
+        self.save(update_fields=['status', 'paid_at'])

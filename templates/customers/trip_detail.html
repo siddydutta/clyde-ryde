@@ -12,11 +12,19 @@
   <p>{% trans "Start Location:" %} {{ trip.start_location.name }}</p>
 
   {% if trip.end_time %}
-      <p>{% trans "End Time:" %} {{ trip.end_time|timezone:"Europe/London" }}</p>
-      <p>{% trans "End Location:" %} {{ trip.end_location.name }}</p>
-      <p>{% trans "Duration:" %} {{ trip.duration }} seconds</p>
-      <p>{% trans "Cost:" %} {{ trip.compute_cost }}</p>
-      <p>{% trans "Payment Status:" %} {{ trip.payment.status }}</p>
+    <p>{% trans "End Time:" %} {{ trip.end_time|timezone:"Europe/London" }}</p>
+    <p>{% trans "End Location:" %} {{ trip.end_location.name }}</p>
+    <p>{% trans "Duration:" %} {{ trip.duration }} seconds</p>
+    <p>{% trans "Cost:" %} {{ trip.compute_cost }}</p>
+    <p>{% trans "Payment Status:" %} {{ trip.payment.status }}</p>
+    {% if trip.payment.status == 'pending' %}
+    <form method="POST" action="{% url 'trip_payment' trip.pk trip.payment.pk %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary">Make Payment</button>
+    </form>
+    {% endif %}
+
+
   {% else %}
       <p>{% trans "This trip is currently in progress." %}</p>
       <h4>{% trans "Return Vehicle" %}</h4>
