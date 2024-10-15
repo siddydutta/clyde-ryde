@@ -16,6 +16,7 @@
       <p>{% trans "End Location:" %} {{ trip.end_location.name }}</p>
       <p>{% trans "Duration:" %} {{ trip.duration }} seconds</p>
       <p>{% trans "Cost:" %} {{ trip.compute_cost }}</p>
+      <p>{% trans "Payment Status:" %} {{ trip.payment.status }}</p>
   {% else %}
       <p>{% trans "This trip is currently in progress." %}</p>
       <h4>{% trans "Return Vehicle" %}</h4>

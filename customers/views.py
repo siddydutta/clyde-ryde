@@ -10,6 +10,7 @@ from django.views import View
 from customers.forms import ReturnVehicleForm
 
 from customers.mixins import LoginRequiredMixin
+from customers.models import Payment
 from users.models import CustomUser
 from users.views import BaseUserLoginView
 
@@ -76,18 +77,24 @@ class TripDetailView(LoginRequiredMixin, DetailView):
 class ReturnVehicleView(LoginRequiredMixin, View):
     def post(self, request, trip_id: int):
         trip = get_object_or_404(Trip, id=trip_id, user=request.user)
-        # Check if trip is ongoing (i.e., has no end_time yet)
         if trip.end_time is None:
             form = ReturnVehicleForm(request.POST, instance=trip)
             if form.is_valid():
-                trip.end_location = form.cleaned_data['end_location']
-                trip.end_time = timezone.now()
-                trip.status = Trip.Status.COMPLETED
-                trip.vehicle.location = form.cleaned_data['end_location']
-                if trip.vehicle.status == Vehicle.Status.IN_USE:
-                    trip.vehicle.status = Vehicle.Status.AVAILABLE
-                trip.vehicle.save()
-                trip.save()
+                trip.end_trip(form.cleaned_data['end_location'])
+                trip_cost = trip.compute_cost()
+                payment = Payment.objects.create(trip=trip, amount=trip_cost)
+                if request.user.wallet.debit(trip_cost):
+                    payment.status = Payment.Status.COMPLETED
+                    payment.paid_at = timezone.now()
+                    payment.save(update_fields=['status', 'paid_at'])
+                    messages.success(
+                        request,
+                        f'Trip completed! You have been charged {trip_cost:.2f}.',
+                    )
+                else:
+                    messages.error(
+                        request, 'Insufficient balance. Please top-up your wallet.'
+                    )
                 return redirect('trip_detail', pk=trip.pk)
         return redirect('trip_detail', pk=trip.pk)
 

@@ -6,6 +6,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.conf import settings
 from typing import Optional
 from decimal import Decimal
+from django.utils import timezone
 
 
 class Location(models.Model):
@@ -100,6 +101,16 @@ class Trip(models.Model):
 
     def __str__(self):
         return f'Trip #{self.pk} by {self.user} on {self.vehicle}'
+
+    def end_trip(self, end_location: Location) -> None:
+        self.end_time = timezone.now()
+        self.end_location = end_location
+        self.status = Trip.Status.COMPLETED
+        self.vehicle.location = end_location
+        if self.vehicle.status == Vehicle.Status.IN_USE:
+            self.vehicle.status = Vehicle.Status.AVAILABLE
+        self.vehicle.save(update_fields=['location', 'status'])
+        self.save(update_fields=['end_time', 'end_location', 'status'])
 
     @property
     def duration(self) -> Optional[float]:
