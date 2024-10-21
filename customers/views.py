@@ -1,6 +1,7 @@
 from django.db.models.query import QuerySet
 from django.views.generic import ListView, DetailView, TemplateView
 from django.views.generic.edit import CreateView
+from django.conf import settings
 from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404, redirect
 from core.models import Location, Trip, Vehicle
@@ -28,6 +29,11 @@ class LocationListView(LoginRequiredMixin, ListView):
     model = Location
     template_name = 'customers/location_list.html'
     context_object_name = 'locations'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['GOOGLE_MAPS_API_KEY'] = settings.GOOGLE_MAPS_API_KEY
+        return context
 
 
 class LocationDetailView(LoginRequiredMixin, DetailView):
