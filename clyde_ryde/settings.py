@@ -156,3 +156,5 @@ MESSAGE_TAGS = {
     messages.WARNING: 'alert-warning',
     messages.ERROR: 'alert-danger',
 }
+
+GOOGLE_MAPS_API_KEY = config('GOOGLE_MAPS_API_KEY')
