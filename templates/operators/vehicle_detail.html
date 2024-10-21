@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% block title %}Vehicle Detail: {{ vehicle.code }}{% endblock %}
+
+{% block navbar %}
+    {% include 'components/navbar.html' %}
+{% endblock %}
+
+{% block content %}
+    <div class="container mt-5 pt-4">
+        <h2 class="mb-4">Vehicle Detail: {{ vehicle.code }}</h2>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <table class="table table-striped">
+                    <tbody>
+                        <tr>
+                            <th scope="row" style="width: 30%;">Vehicle Code:</th>
+                            <td>{{ vehicle.code }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Model:</th>
+                            <td>{{ vehicle.type.model }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Brand:</th>
+                            <td>{{ vehicle.type.brand }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Status:</th>
+                            <td>
+                                <span class="badge bg-primary">{{ vehicle.get_status_display }}</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Location:</th>
+                            <td>{{ vehicle.location.name }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Battery Level:</th>
+                            <td>
+                                <div class="progress" style="height: 20px;">
+                                    <div class="progress-bar
+                                                {% if vehicle.battery_level < 20 %}
+                                                    bg-danger
+                                                {% elif vehicle.battery_level < 50 %}
+                                                    bg-warning
+                                                {% else %}
+                                                    bg-success
+                                                {% endif %}"
+                                         role="progressbar"
+                                         style="width: {{ vehicle.battery_level }}%"
+                                         aria-valuenow="{{ vehicle.battery_level }}"
+                                         aria-valuemin="0"
+                                         aria-valuemax="100">{{ vehicle.battery_level }}%</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Created At:</th>
+                            <td>{{ vehicle.created_at }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Updated At:</th>
+                            <td>{{ vehicle.updated_at }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <h5 class="card-title mb-3">Actions</h5>
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <form method="post">
+                            {% csrf_token %}
+                            <button type="submit" name="charge" class="btn btn-primary w-100">Charge Vehicle</button>
+                        </form>
+                    </div>
+                    <div class="col-md-4">
+                        <form method="post">
+                            {% csrf_token %}
+                            <button type="submit"
+                                    name="repair"
+                                    class="btn btn-warning w-100"
+                                    {% if vehicle.status != 'defective' %}disabled{% endif %}>Repair Vehicle</button>
+                        </form>
+                    </div>
+                    <!-- TODO fix location changing bug -->
+                    <div class="col-md-4">
+                        <form method="post" class="d-flex">
+                            {% csrf_token %}
+                            <select name="new_location"
+                                    id="new_location"
+                                    class="form-select me-2"
+                                    {% if vehicle.status == 'in_use' %}disabled{% endif %}>
+                                <option value="">Select Location</option>
+                                {% for location in vehicle.location_set.all %}
+                                    <option value="{{ location.id }}">{{ location.name }}</option>
+                                {% endfor %}
+                            </select>
+                            <button type="submit"
+                                    name="change_location"
+                                    class="btn btn-secondary"
+                                    {% if vehicle.status == 'in_use' %}disabled{% endif %}>Change</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
