@@ -2,6 +2,7 @@ from collections import defaultdict
 from itertools import accumulate
 import numpy as np
 
+from django.conf import settings
 from django.db.models import Count, Q, Sum
 from django.db.models.functions import TruncDate
 from django.urls import reverse_lazy
@@ -29,6 +30,7 @@ class RevenueView(LoginRequiredMixin, DateFilterMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         from_date, to_date = self.get_date_range()
+
         query = (
             Payment.objects.filter(
                 status=Payment.Status.COMPLETED,
@@ -39,16 +41,38 @@ class RevenueView(LoginRequiredMixin, DateFilterMixin, TemplateView):
             .annotate(daily_revenue=Sum('amount'))
             .order_by('date')
         )
-
         dates = [payment['date'].strftime('%Y-%m-%d') for payment in query]
         daily_revenues = [float(payment['daily_revenue']) for payment in query]
         cumulative_revenues = list(accumulate(daily_revenues))
 
+        context['from_date'] = str(from_date)
+        context['to_date'] = str(to_date)
         context['dates'] = dates
         context['daily_revenues'] = daily_revenues
         context['cumulative_revenues'] = cumulative_revenues
+        return context
+
+
+class LocationPopularity(LoginRequiredMixin, DateFilterMixin, TemplateView):
+    template_name = 'managers/location_popularity.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        from_date, to_date = self.get_date_range()
+
+        query = (
+            Trip.objects.filter(
+                start_time__date__range=[from_date, to_date],
+                status=Trip.Status.COMPLETED,
+            )
+            .values('start_location__latitude', 'start_location__longitude')
+            .annotate(count=Count('id'))
+        )
+
         context['from_date'] = str(from_date)
         context['to_date'] = str(to_date)
+        context['locations'] = query
+        context['GOOGLE_MAPS_API_KEY'] = settings.GOOGLE_MAPS_API_KEY
         return context
 
 

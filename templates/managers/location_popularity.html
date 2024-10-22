@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+    Location Popularity
+{% endblock title %}
+
+{% block navbar %}
+    {% include "components/navbar.html" %}
+{% endblock navbar %}
+
+{% block content %}
+    <div class="container mt-5 pt-4">
+        <div class="container">
+            <h1 class="mb-0">Location Popularity Heatmap</h1>
+        </div>
+
+        <div class="container my-4">
+            {% include "components/date_filter.html" %}
+
+            <div class="card mt-4">
+                <div class="card-body">
+                    <div id="map" style="height: 60vh;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Google Maps API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&libraries=visualization"></script>
+    <script>
+        var locations_data = [
+            {% for location in locations %}
+                {
+                    lat: {{ location.start_location__latitude }},
+                    lng: {{ location.start_location__longitude }},
+                    count: {{ location.count }},
+                },
+            {% endfor %}
+        ]
+    </script>
+    <script src="{% static 'js/location-heatmap.js' %}"></script>
+{% endblock content %}
