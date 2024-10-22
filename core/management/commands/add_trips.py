@@ -85,7 +85,12 @@ class Command(BaseCommand):
                 status=Trip.Status.COMPLETED,
             )
             trip_cost = trip.compute_cost()
-            Payment.objects.create(trip=trip, amount=trip_cost).complete_payment()
+            Payment.objects.create(
+                trip=trip,
+                amount=trip_cost,
+                status=Payment.Status.COMPLETED,
+                paid_at=end_time,
+            )
             count += 1
 
         self.stdout.write(self.style.SUCCESS(f'Successfully added {count} trips'))
