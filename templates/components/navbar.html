@@ -49,6 +49,15 @@
                         </li>
                     {% elif user.type == 'manager' %}
                         <li class="nav-item">
+                            <a class="nav-link" href="{% url 'trip_duration' %}">{% trans "Trip Duration" %}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'vehicle_count' %}">{% trans "Vehicle Count" %}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'vehicle_usage' %}">{% trans "Vehicle Usage" %}</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="{% url 'manager_dashboard' %}">{% trans "Dashboard" %}</a>
                         </li>
                     {% endif %}

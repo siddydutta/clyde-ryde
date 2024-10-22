@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Vehicle Count
+{% endblock title %}
+
+{% block navbar %}
+    {% include "components/navbar.html" %}
+{% endblock navbar %}
+
+{% block content %}
+    <div class="container mt-5 pt-4">
+        <div class="container">
+            <h1 class="mb-0">Trip Duration Histogram Report</h1>
+        </div>
+
+        <div class="container my-4">
+            {% include "components/date_filter.html" %}
+
+            <div class="card mt-4">
+                <div class="card-body">
+                    <div style="height: 60vh;">
+                        <canvas id="tripDurationHistogram"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var ctx = document.getElementById('tripDurationHistogram').getContext('2d');
+
+            var chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: {{ bin_edges|safe }},
+                    datasets: [{
+                        label: 'Number of Trips',
+                        data: {{ hist|safe }},
+                        backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Trip Duration (minutes)'
+                            },
+                            ticks: {
+                                autoSkip: false
+                            },
+                            grid: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Number of Trips'
+                            },
+                            ticks: {
+                                stepSize: 1
+                            },
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    barPercentage: 1,
+                    categoryPercentage: 1,
+                    responsive: true
+                }
+            });
+        });
+    </script>
+{% endblock %}
