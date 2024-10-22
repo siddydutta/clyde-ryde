@@ -2,6 +2,7 @@ from django.db.models.query import QuerySet
 from django.views.generic import ListView, DetailView, TemplateView
 from django.views.generic.edit import CreateView
 from django.conf import settings
+from django.db import transaction
 from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404, redirect
 from core.models import Location, Trip, Vehicle
@@ -89,17 +90,17 @@ class ReturnVehicleView(LoginRequiredMixin, View):
                 trip.end_trip(form.cleaned_data['end_location'])
                 trip_cost = trip.compute_cost()
                 payment = Payment.objects.create(trip=trip, amount=trip_cost)
-                if request.user.wallet.debit(trip_cost):
-                    payment.complete_payment()
-                    messages.success(
-                        request,
-                        f'Trip completed! You have been charged {trip_cost:.2f}.',
-                    )
-                else:
-                    messages.error(
-                        request, 'Insufficient balance. Please top-up your wallet.'
-                    )
-                return redirect('trip_detail', pk=trip.pk)
+                with transaction.atomic():
+                    if request.user.wallet.debit(trip_cost):
+                        payment.complete_payment()
+                        messages.success(
+                            request,
+                            f'Trip completed! You have been charged {trip_cost:.2f}.',
+                        )
+                    else:
+                        messages.error(
+                            request, 'Insufficient balance. Please top-up your wallet.'
+                        )
         return redirect('trip_detail', pk=trip.pk)
 
 

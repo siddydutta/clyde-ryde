@@ -74,7 +74,7 @@ python manage.py runserver
 ```
 
 
-## Docker Support
+## [Optional] Docker Support
 
 ### 0. Install [Docker Engine](https://docs.docker.com/engine/install/)
 Verify the installation:
@@ -91,4 +91,26 @@ docker-compose up --build
 ### 2. Running Commands in the Web Container
 ```bash
 docker-compose exec web python manage.py showmigrations
+```
+
+
+## Management Commands to Add Dummy Data
+1. Add Locations
+```shell
+python3 manage.py add_locations
+```
+
+2. Add Vehicle Types
+```shell
+python3 manage.py add_vehicle_types
+```
+
+3. Add Vehicles
+```shell
+python3 manage.py add_vehicles --number 15
+```
+
+4. Add Trips & Payments
+```shell
+python manage.py add_trips --start_date 2024-10-01 --number 30
 ```
