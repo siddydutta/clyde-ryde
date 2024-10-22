@@ -1,6 +1,7 @@
 from collections import defaultdict
+import numpy as np
 
-from django.db.models import Count, Q
+from django.db.models import Count, Q, F
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
@@ -17,6 +18,27 @@ class LoginView(BaseUserLoginView):
 
 class DashboardView(LoginRequiredMixin, TemplateView):
     template_name = 'managers/dashboard.html'
+
+
+class TripDurationView(LoginRequiredMixin, DateFilterMixin, TemplateView):
+    template_name = 'managers/trip_duration.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        from_date, to_date = self.get_date_range()
+
+        query = Trip.objects.only('start_time', 'end_time').filter(
+            start_time__date__range=[from_date, to_date], status=Trip.Status.COMPLETED
+        )
+        trip_durations = [trip.duration / 60 for trip in query]
+        bin_edges = np.arange(0, max(trip_durations) + 10, 30)  # bins of 30 minutes
+        hist, bin_edges = np.histogram(trip_durations, bins=bin_edges)
+
+        context['from_date'] = str(from_date)
+        context['to_date'] = str(to_date)
+        context['bin_edges'] = bin_edges[:-1].tolist()
+        context['hist'] = hist.tolist()
+        return context
 
 
 class VehicleCountView(LoginRequiredMixin, TemplateView):
