@@ -11,35 +11,22 @@
     <div class="container mt-5 pt-4">
         <h2>{% trans "Available Locations" %}</h2>
 
-        {% if GOOGLE_MAPS_API_KEY %}
-            <div id="map" style="height: 500px; width: 100%;"></div>
-            <!-- Google Maps JavaScript API -->
-            <script src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&libraries=marker"></script>
-            <script>
-                var locations_data = [
-                    {% for location in locations %}
-                        {
-                            lat: {{ location.latitude }},
-                            lng: {{ location.longitude }},
-                            name: "{{ location.name }}",
-                            address: "{{ location.address }}",
-                            url: "{% url 'location_detail' location.pk %}"
-                        },
-                    {% endfor %}
-                ];
-            </script>
-            <script src="{% static 'js/location-map.js' %}"></script>
-        {% else %}
-            <ul>
+        <div id="map" style="height: 500px; width: 100%;"></div>
+        <!-- Google Maps JavaScript API -->
+        <script src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&libraries=marker"></script>
+        <script>
+            var locations_data = [
                 {% for location in locations %}
-                    <li>
-                        <a href="{% url 'location_detail' location.pk %}">{{ location.name }}</a>
-                        - {{ location.address }}
-                    </li>
-                {% empty %}
-                    <li>{% trans "No locations available." %}</li>
+                    {
+                        lat: {{ location.latitude }},
+                        lng: {{ location.longitude }},
+                        name: "{{ location.name }}",
+                        address: "{{ location.address }}",
+                        url: "{% url 'location_detail' location.pk %}"
+                    },
                 {% endfor %}
-            </ul>
-        {% endif %}
+            ];
+        </script>
+        <script src="{% static 'js/location-map.js' %}"></script>
     </div>
 {% endblock content %}
