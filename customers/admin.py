@@ -1,5 +1,5 @@
 from django.contrib import admin
-from customers.models import Wallet, Payment
+from customers.models import Wallet, Payment, Report
 
 
 @admin.register(Wallet)
@@ -17,3 +17,18 @@ class PaymentAdmin(admin.ModelAdmin):
         'amount',
         'status',
     )
+
+
+
+@admin.register(Report)
+class ReportAdmin(admin.ModelAdmin):
+    list_display = (
+        'report_id',
+        'status',
+        'vehicle_code',
+        'location',
+        'created_at',
+        'updated_at',
+        'description',
+    )
+    readonly_fields = ('report_id',)
