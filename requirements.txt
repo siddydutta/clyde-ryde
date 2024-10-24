@@ -11,5 +11,6 @@ pre_commit==4.0.0
 psycopg2-binary==2.9.9
 python-decouple==3.8
 PyYAML==6.0.2
+redis==5.2.0
 sqlparse==0.5.1
 virtualenv==20.26.6
