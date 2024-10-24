@@ -7,3 +7,6 @@ __pycache__/
 # IDE Files
 .idea/
 .vscode/
+
+# Redis Dump File
+dump.rdb

@@ -24,6 +24,12 @@ psql --version
 ```
 **psql (PostgreSQL) 14.xx**
 
+### 2. [Optional] Install [Redis](https://redis.io/docs/latest/operate/oss_and_stack/install/install-redis/)
+Verify the installation:
+```bash
+redis-server --version
+```
+**Redis server v=7.x.x**
 
 ## Development
 
@@ -90,27 +96,27 @@ docker-compose up --build
 
 ### 2. Running Commands in the Web Container
 ```bash
-docker-compose exec web python manage.py showmigrations
+docker-compose exec web python manage.py createsuperuser
 ```
 
 
 ## Management Commands to Add Dummy Data
-1. Add Locations
+### Add Locations
 ```shell
-python3 manage.py add_locations
+python manage.py add_locations
 ```
 
-2. Add Vehicle Types
+### Add Vehicle Types
 ```shell
-python3 manage.py add_vehicle_types
+python manage.py add_vehicle_types
 ```
 
-3. Add Vehicles
+### Add Vehicles
 ```shell
-python3 manage.py add_vehicles --number 15
+python manage.py add_vehicles --number 15
 ```
 
-4. Add Trips & Payments
+### Add Trips & Payments
 ```shell
 python manage.py add_trips --start_date 2024-10-01 --number 30
 ```

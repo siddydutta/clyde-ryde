@@ -6,4 +6,4 @@ class CustomersConfig(AppConfig):
     name = 'customers'
 
     def ready(self):
-        import customers.signals
+        import customers.signals  # noqa: F401
