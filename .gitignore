@@ -3,3 +3,7 @@ venv/
 
 # Extra Python Files
 __pycache__/
+
+# IDE Files
+.idea/
+.vscode/

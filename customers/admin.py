@@ -19,11 +19,9 @@ class PaymentAdmin(admin.ModelAdmin):
     )
 
 
-
 @admin.register(Report)
 class ReportAdmin(admin.ModelAdmin):
     list_display = (
-        'report_id',
         'status',
         'vehicle_code',
         'location',
@@ -31,4 +29,3 @@ class ReportAdmin(admin.ModelAdmin):
         'updated_at',
         'description',
     )
-    readonly_fields = ('report_id',)
