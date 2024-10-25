@@ -1,7 +1,7 @@
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView, DetailView
 
-from core.models import Vehicle
+from core.models import Location, Vehicle
 from operators.mixins import LoginRequiredMixin
 from users.models import CustomUser
 from users.views import BaseUserLoginView
@@ -47,6 +47,12 @@ class VehicleDetailView(DetailView):
     model = Vehicle
     template_name = 'operators/vehicle_detail.html'
     context_object_name = 'vehicle'
+    queryset = Vehicle.objects.all().select_related('location')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['locations'] = Location.objects.only('id', 'name').all()
+        return context
 
     def post(self, request, *args, **kwargs):
         vehicle = self.get_object()

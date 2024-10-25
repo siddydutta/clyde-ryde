@@ -88,7 +88,6 @@
                                     {% if vehicle.status != 'defective' %}disabled{% endif %}>Repair Vehicle</button>
                         </form>
                     </div>
-                    <!-- TODO fix location changing bug -->
                     <div class="col-md-4">
                         <form method="post" class="d-flex">
                             {% csrf_token %}
@@ -97,9 +96,7 @@
                                     class="form-select me-2"
                                     {% if vehicle.status == 'in_use' %}disabled{% endif %}>
                                 <option value="">Select Location</option>
-                                {% for location in vehicle.location_set.all %}
-                                    <option value="{{ location.id }}">{{ location.name }}</option>
-                                {% endfor %}
+                                {% for location in locations %}<option value="{{ location.id }}">{{ location.name }}</option>{% endfor %}
                             </select>
                             <button type="submit"
                                     name="change_location"
