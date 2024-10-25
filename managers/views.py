@@ -1,10 +1,12 @@
 from collections import defaultdict
 from itertools import accumulate
+import csv
 import numpy as np
 
 from django.conf import settings
 from django.db.models import Count, Q, Sum
 from django.db.models.functions import TruncDate
+from django.http.response import HttpResponse as HttpResponse
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
@@ -52,6 +54,23 @@ class RevenueView(LoginRequiredMixin, DateFilterMixin, TemplateView):
         context['cumulative_revenues'] = cumulative_revenues
         return context
 
+    def render_to_response(self, context, **response_kwargs) -> HttpResponse:
+        if self.request.GET.get('download') == 'csv':
+            response = HttpResponse(content_type='text/csv')
+            response['Content-Disposition'] = (
+                'attachment; filename="revenue_report.csv"'
+            )
+            writer = csv.writer(response)
+            writer.writerow(['Date', 'Daily Revenue', 'Cumulative Revenue'])
+            for date, daily_revenue, cumulative_revenue in zip(
+                context['dates'],
+                context['daily_revenues'],
+                context['cumulative_revenues'],
+            ):
+                writer.writerow([date, daily_revenue, cumulative_revenue])
+            return response
+        return super().render_to_response(context, **response_kwargs)
+
 
 class LocationPopularity(LoginRequiredMixin, DateFilterMixin, TemplateView):
     template_name = 'managers/location_popularity.html'
@@ -75,6 +94,25 @@ class LocationPopularity(LoginRequiredMixin, DateFilterMixin, TemplateView):
         context['GOOGLE_MAPS_API_KEY'] = settings.GOOGLE_MAPS_API_KEY
         return context
 
+    def render_to_response(self, context, **response_kwargs) -> HttpResponse:
+        if self.request.GET.get('download') == 'csv':
+            response = HttpResponse(content_type='text/csv')
+            response['Content-Disposition'] = (
+                'attachment; filename="location_popularity_report.csv"'
+            )
+            writer = csv.writer(response)
+            writer.writerow(['Latitude', 'Longitude', 'Count'])
+            for location in context['locations']:
+                writer.writerow(
+                    [
+                        location['start_location__latitude'],
+                        location['start_location__longitude'],
+                        location['count'],
+                    ]
+                )
+            return response
+        return super().render_to_response(context, **response_kwargs)
+
 
 class TripDurationView(LoginRequiredMixin, DateFilterMixin, TemplateView):
     template_name = 'managers/trip_duration.html'
@@ -95,6 +133,19 @@ class TripDurationView(LoginRequiredMixin, DateFilterMixin, TemplateView):
         context['bin_edges'] = bin_edges[:-1].tolist()
         context['hist'] = hist.tolist()
         return context
+
+    def render_to_response(self, context, **response_kwargs) -> HttpResponse:
+        if self.request.GET.get('download') == 'csv':
+            response = HttpResponse(content_type='text/csv')
+            response['Content-Disposition'] = (
+                'attachment; filename="trip_duration_report.csv"'
+            )
+            writer = csv.writer(response)
+            writer.writerow(['Duration (minutes)', 'Count'])
+            for duration, count in zip(context['bin_edges'], context['hist']):
+                writer.writerow([duration, count])
+            return response
+        return super().render_to_response(context, **response_kwargs)
 
 
 class VehicleCountView(LoginRequiredMixin, TemplateView):
@@ -128,6 +179,23 @@ class VehicleCountView(LoginRequiredMixin, TemplateView):
         context['defective_counts'] = defective_counts
         return context
 
+    def render_to_response(self, context, **response_kwargs) -> HttpResponse:
+        if self.request.GET.get('download') == 'csv':
+            response = HttpResponse(content_type='text/csv')
+            response['Content-Disposition'] = (
+                'attachment; filename="vehicle_count_report.csv"'
+            )
+            writer = csv.writer(response)
+            writer.writerow(['Location', 'Available Count', 'Defective Count'])
+            for location, available_count, defective_count in zip(
+                context['locations'],
+                context['available_counts'],
+                context['defective_counts'],
+            ):
+                writer.writerow([location, available_count, defective_count])
+            return response
+        return super().render_to_response(context, **response_kwargs)
+
 
 class VehicleUsageView(LoginRequiredMixin, DateFilterMixin, TemplateView):
     template_name = 'managers/vehicle_usage.html'
@@ -155,3 +223,16 @@ class VehicleUsageView(LoginRequiredMixin, DateFilterMixin, TemplateView):
         context['models'] = models
         context['counts'] = counts
         return context
+
+    def render_to_response(self, context, **response_kwargs) -> HttpResponse:
+        if self.request.GET.get('download') == 'csv':
+            response = HttpResponse(content_type='text/csv')
+            response['Content-Disposition'] = (
+                'attachment; filename="vehicle_usage_report.csv"'
+            )
+            writer = csv.writer(response)
+            writer.writerow(['Model', 'Count'])
+            for model, count in zip(context['models'], context['counts']):
+                writer.writerow([model, count])
+            return response
+        return super().render_to_response(context, **response_kwargs)
