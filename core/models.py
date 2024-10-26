@@ -41,6 +41,7 @@ class Vehicle(models.Model):
         AVAILABLE = ('available', _('Available'))
         IN_USE = ('in_use', _('In use'))
         DEFECTIVE = ('defective', _('Defective'))
+        DISCHARGED = ('discharged', _('Discharged'))
 
     code = models.CharField(max_length=6, unique=True, primary_key=True)
     status = models.CharField(
@@ -64,6 +65,8 @@ class Vehicle(models.Model):
     def save(self, *args, **kwargs):
         if not self.code:
             self.code = self.__generate_unique_code()
+        if self.battery_level == 0:
+            self.status = Vehicle.Status.DISCHARGED
         super().save(*args, **kwargs)
 
     def __generate_unique_code(self):
@@ -71,6 +74,11 @@ class Vehicle(models.Model):
             code = str(random.randint(100000, 999999))
             if not Vehicle.objects.filter(code=code).exists():
                 return code
+
+    def update_battery_level(self, duration: int) -> None:
+        """Update battery level based on the duration (seconds) of the trip."""
+        self.battery_level -= 0.1 * duration
+        self.battery_level = max(self.battery_level, 0)
 
 
 class Trip(models.Model):
@@ -109,7 +117,8 @@ class Trip(models.Model):
         self.vehicle.location = end_location
         if self.vehicle.status == Vehicle.Status.IN_USE:
             self.vehicle.status = Vehicle.Status.AVAILABLE
-        self.vehicle.save(update_fields=['location', 'status'])
+        self.vehicle.update_battery_level(self.duration)
+        self.vehicle.save(update_fields=['location', 'status', 'battery_level'])
         self.save(update_fields=['end_time', 'end_location', 'status'])
 
     @property
