@@ -129,6 +129,16 @@ class Trip(models.Model):
             return None
         return (self.end_time - self.start_time).total_seconds()
 
+    @property
+    def formatted_duration(self) -> Optional[str]:
+        duration = self.duration
+        if duration is None:
+            return None
+        hours = int(duration // 3600)
+        minutes = int((duration % 3600) // 60)
+        seconds = int(duration % 60)
+        return f'{hours}h {minutes}m {seconds}s'
+
     def compute_cost(self) -> Optional[Decimal]:
         if self.duration is None:
             return None
