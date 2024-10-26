@@ -22,11 +22,10 @@ class CacheUtil:
         try:
             cache = caches['redis']
             cache.get('key')
-            logger.info('Using Redis cache.')
             return cache
         except Exception as e:
-            logger.warning(f'Error using Redis cache: {e}')
-            logger.info('Using LocMem cache.')
+            logger.debug(f'Error using Redis cache: {e}')
+            logger.debug('Using LocMem cache instead.')
         return caches['default']
 
     def get(self, key):

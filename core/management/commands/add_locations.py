@@ -44,8 +44,15 @@ class Command(BaseCommand):
             },
         ]
 
+        count = 0
         for location_data in locations:
-            Location.objects.create(**location_data)
+            location, created = Location.objects.get_or_create(**location_data)
+            if created:
+                count += 1
+
+        if count == 0:
+            self.stdout.write(self.style.WARNING('[ADD LOCATIONS] Skipped.'))
+        else:
             self.stdout.write(
-                self.style.SUCCESS(f'Successfully added {location_data["name"]}')
+                self.style.SUCCESS(f'[ADD LOCATIONS] Added {count} locations.')
             )
