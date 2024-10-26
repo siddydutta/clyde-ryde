@@ -31,8 +31,8 @@ class CacheUtil:
     def get(self, key):
         return self.cache.get(key)
 
-    def set(self, key, value):
-        return self.cache.set(key, value)
+    def set(self, key, value, timeout=None):
+        return self.cache.set(key, value, timeout)
 
     def delete(self, key):
         return self.cache.delete(key)

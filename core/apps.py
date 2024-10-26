@@ -8,3 +8,6 @@ class CoreConfig(AppConfig):
     def ready(self):
         # instantiate cache object
         from core.cache import cache  # noqa: F401
+
+        # connect signals
+        from core import signals  # noqa: F401

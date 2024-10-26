@@ -1,4 +1,4 @@
-function initMap() {
+function initMap(userPosition) {
     var locations = locations_data;
 
     var map = new google.maps.Map(document.getElementById('map'), {
@@ -27,7 +27,30 @@ function initMap() {
         });
     });
 
-    map.fitBounds(bounds);
+    if (userPosition) {
+        var marker = new google.maps.marker.AdvancedMarkerElement({
+            position: userPosition,
+            map: map,
+            title: "Your Location",
+            content: new google.maps.marker.PinElement({
+                glyph: "★",
+                scale: 1.5
+            }).element
+        });
+        bounds.extend(marker.position);
+
+        marker.addListener('click', function() {
+            infoWindow.setContent('<h5>Your Location</h5>');
+            infoWindow.open(map, marker);
+        });
+
+        setTimeout(() => {
+            map.setCenter(userPosition);
+            map.setZoom(15);
+        }, 100);
+    } else {
+        map.fitBounds(bounds);
+    }
 }
 
-window.onload = initMap;
+window.onload = initMap();

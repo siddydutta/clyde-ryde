@@ -3,30 +3,55 @@
 {% load i18n %}
 {% load static %}
 
+{% block title %}
+    Locations
+{% endblock title %}
+
 {% block navbar %}
     {% include "components/navbar.html" %}
 {% endblock navbar %}
 
 {% block content %}
-    <div class="container mt-5 pt-4">
-        <h2>{% trans "Available Locations" %}</h2>
-
-        <div id="map" style="height: 500px; width: 100%;"></div>
-        <!-- Google Maps JavaScript API -->
-        <script src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&libraries=marker"></script>
-        <script>
-            var locations_data = [
-                {% for location in locations %}
-                    {
-                        lat: {{ location.latitude }},
-                        lng: {{ location.longitude }},
-                        name: "{{ location.name }}",
-                        address: "{{ location.address }}",
-                        url: "{% url 'location_detail' location.pk %}"
-                    },
-                {% endfor %}
-            ];
-        </script>
-        <script src="{% static 'js/location-map.js' %}"></script>
+    <div class="content">
+        <div class="container d-flex flex-column align-items-center">
+            <h2 class="mb-4">{% trans "Available Locations" %}</h2>
+            <button id="locate-me" class="btn btn-cr-dark mb-1">Locate Me</button>
+            <div id="map" style="height: calc(100vh - 250px);"></div>
+        </div>
     </div>
+
+    <!-- Google Maps JavaScript API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&libraries=marker"></script>
+    <script>
+        var locations_data = [
+            {% for location in locations %}
+                {
+                    lat: {{ location.latitude }},
+                    lng: {{ location.longitude }},
+                    name: "{{ location.name }}",
+                    address: "{{ location.address }}",
+                    url: "{% url 'location_detail' location.pk %}"
+                },
+            {% endfor %}
+        ];
+    </script>
+    <script src="{% static 'js/location-map.js' %}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('locate-me').addEventListener('click', () => {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(position => {
+                        initMap({
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude
+                        });
+                    }, () => {
+                        alert("Please enable location services.");
+                    });
+                } else {
+                    alert("Location services are not supported by this browser.");
+                }
+            });
+        });
+    </script>
 {% endblock content %}
