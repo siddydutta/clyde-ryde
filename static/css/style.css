@@ -1,6 +1,27 @@
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    flex: 1;
+}
+
+
+.alert-container {
+    position: fixed;
+    top: 60px;
+    right: 1rem;
+    z-index: 9999;
+}
+
 #social{
     font-size: 60px;
-    color: #007bff;
+    color: #333333;
     font-weight: bold;
     line-height: 1;
     margin: 5px;

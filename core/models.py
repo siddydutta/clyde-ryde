@@ -29,7 +29,7 @@ class VehicleType(models.Model):
     rate = models.DecimalField(
         max_digits=5, decimal_places=2, help_text=_('Hourly rental rate')
     )
-    image = models.ImageField(upload_to='vehicle_types/', null=True, blank=True)
+    image = models.ImageField(upload_to='vehicle_types/')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

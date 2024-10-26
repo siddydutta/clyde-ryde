@@ -3,7 +3,7 @@
 {% load i18n %}
 {% load static %}
 {% block title %}
-    Clyde Ryde | Home
+    {% trans "Home" %}
 {% endblock title %}
 
 {% block navbar %}
@@ -17,84 +17,68 @@
             <div class="d-flex align-items-center">
                 <div>
                     <h1>
-                        Welcome to <span class="text-warning">Clyde Ryde</span>
+                        {% trans "Welcome to " %}<span class="text-warning">Clyde Ryde</span>
                     </h1>
-                    <p class="my-4 mt-2">
-                        Clyde Ryde is your go-to app for convenient urban transportation. We offer three distinct vehicle types to suit your travel needs: bicycles, electric bikes, and scooters. With our platform, you can easily navigate the city and find the perfect ride at any time. Experience the freedom to move around effortlessly, with the flexibility to pick up and drop off wherever you like. Join us in revolutionizing urban mobility!
+                    <p class="my-4 mt-2 p-1">
+                        {% trans "Clyde Ryde is your go-to app for convenient urban transportation. We offer three distinct vehicle types to suit your travel needs: bicycles, electric bikes, and scooters. With our platform, you can easily navigate the city and find the perfect ride at any time. Experience the freedom to move around effortlessly, with the flexibility to pick up and drop off wherever you like. Join us in revolutionizing urban mobility!" %}
                     </p>
-                    <button class="btn btn-primary btn-lg">Start to rent vehicle</button>
+                    {% if not user.is_authenticated %}
+                        <a href="{% url 'customer_register' %}" class="btn btn-warning btn-lg">{% trans "Register" %}</a>
+                        <a href="{% url 'customer_login' %}" class="btn btn-warning btn-lg">{% trans "Login" %}</a>
+                    {% endif %}
                 </div>
                 <img src="{% static 'images/main_image.webp' %}"
-                     alt=""
+                     alt="portfolio-image"
                      class="w-50 d-none d-lg-block" />
             </div>
         </div>
     </section>
-    <section id="rent" class="p-3 text-center d-none d-lg-block">
+    <section id="fleet" class="p-3 text-center d-none d-lg-block">
         <div class="container mt-3">
+            <h1>{% trans "Our Fleet" %}</h1>
             <div class="row">
-                <div class="col-md-4">
-                    <div class="card bg-dark" style="width: 24rem;">
-                        <img src="{% static 'images/bike.webp' %}" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title text-light">Bicycles</h5>
-                            <p class="card-text text-light">
-                                Some quick example text to build on the card title and make up the bulk of the card's content.
-                            </p>
+                {% for vt in vehicle_types %}
+                    <div class="col-md-4">
+                        <div class="card bg-dark text-light" style="width: 24rem;">
+                            <img src="{{ vt.image.url }}" class="card-img-top" alt="{{ vt.name }}">
+                            <div class="card-body">
+                                <h5 class="card-title text-light">{{ vt.model }} - {{ vt.brand }}</h5>
+                                <p class="card-text text-light">{{ vt.description }}</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card bg-secondary" style="width: 24rem;">
-                        <img src="{% static 'images/electric bike.webp' %}"
-                             class="card-img-top"
-                             alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title text-light">Electric Bikes</h5>
-                            <p class="card-text text-light">
-                                Some quick example text to build on the card title and make up the bulk of the card's content.
-                            </p>
-                        </div>
+                {% empty %}
+                    <div class="col-12">
+                        <h2 class="text-dark">
+                            {% trans "We are working hard to bring our fleet to you soon!" %}
+                        </p>
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card bg-dark" style="width: 24rem;">
-                        <img src="{% static 'images/scooter.webp' %}"
-                             class="card-img-top"
-                             alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title text-light">Scooters</h5>
-                            <p class="card-text text-light">
-                                Some quick example text to build on the card title and make up the bulk of the card's content.
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
             </div>
         </div>
     </section>
-    <section class="p-5" id="response">
+    <section class="p-5 text-center" id="response">
         <div class="container">
-            <h1>Social Responsibility</h1>
+            <h1>{% trans "Social Responsibility" %}</h1>
             <div class="row align-items-center mt-5">
                 <div class="col-md-4">
                     <div class="stat col-md-4 ms-auto">
                         <p id="social">
                             635<span class="ml-2" style="font-size: 0.4em; color: black;">Km</span>
                         </p>
-                        <p>Total Cycling Distance</p>
+                        <p>{% trans "Total Cycling Distance" %}</p>
                     </div>
                     <div class="stat col-md-4 ms-auto">
                         <p id="social">
                             158<span style="font-size: 0.4em; color: black;">Ml</span>
                         </p>
-                        <p>Number of orbits around the Earth</p>
+                        <p>{% trans "Number of orbits around the Earth" %}</p>
                     </div>
                     <div class="stat col-md-4 ms-auto">
                         <p id="social">
                             278<span style="font-size: 0.4em; color: black;">Kg</span>
                         </p>
-                        <p>Cumulative reduction in carbon emissions</p>
+                        <p>{% trans "Cumulative reduction in carbon emissions" %}</p>
                     </div>
                 </div>
                 <div class="col-md-8">
@@ -105,7 +89,7 @@
     </section>
     <section class="p-5" id="faq">
         <div class="container">
-            <h2 class="text-center">FAQ</h2>
+            <h2 class="text-center">{% trans "FAQ" %}</h2>
             <div class="accordion accordion-flush" id="accordionFlushExample">
                 <div class="accordion-item">
                     <h2 class="accordion-header">
@@ -114,14 +98,15 @@
                                 data-bs-toggle="collapse"
                                 data-bs-target="#flush-collapseOne"
                                 aria-expanded="false"
-                                aria-controls="flush-collapseOne">Accordion Item #1</button>
+                                aria-controls="flush-collapseOne">
+                            <strong>{% trans "What types of vehicles are available?" %}</strong>
+                        </button>
                     </h2>
                     <div id="flush-collapseOne"
                          class="accordion-collapse collapse"
                          data-bs-parent="#accordionFlushExample">
                         <div class="accordion-body">
-                            Placeholder content for this accordion, which is intended to demonstrate
-                            the <code>.accordion-flush</code> class. This is the first item's accordion body.
+                            {% trans "At Clyde Ryde, we offer a diverse fleet of vehicles to cater to your urban transportation needs. You can choose from bicycles, electric bikes, and scooters, each designed for a comfortable and efficient ride around the city. Whether you're commuting to work or exploring, we have the perfect vehicle for you!" %}
                         </div>
                     </div>
                 </div>
@@ -132,15 +117,15 @@
                                 data-bs-toggle="collapse"
                                 data-bs-target="#flush-collapseTwo"
                                 aria-expanded="false"
-                                aria-controls="flush-collapseTwo">Accordion Item #2</button>
+                                aria-controls="flush-collapseTwo">
+                            <strong>{% trans "How do I rent a vehicle?" %}</strong>
+                        </button>
                     </h2>
                     <div id="flush-collapseTwo"
                          class="accordion-collapse collapse"
                          data-bs-parent="#accordionFlushExample">
                         <div class="accordion-body">
-                            Placeholder content for this accordion, which is intended to demonstrate
-                            the <code>.accordion-flush</code> class. This is the second item's accordion body. Let's imagine
-                            this being filled with some actual content.
+                            {% trans "Renting a vehicle with Clyde Ryde is easy! First, create your account on our platform. Once you're logged in, you can browse available vehicles based on your preferred location. After selecting your desired vehicle, you can start your trip!" %}
                         </div>
                     </div>
                 </div>
@@ -151,17 +136,15 @@
                                 data-bs-toggle="collapse"
                                 data-bs-target="#flush-collapseThree"
                                 aria-expanded="false"
-                                aria-controls="flush-collapseThree">Accordion Item #3</button>
+                                aria-controls="flush-collapseThree">
+                            <strong>{% trans "How do I pay for a trip?" %}</strong>
+                        </button>
                     </h2>
                     <div id="flush-collapseThree"
                          class="accordion-collapse collapse"
                          data-bs-parent="#accordionFlushExample">
                         <div class="accordion-body">
-                            Placeholder content for this accordion, which is intended to demonstrate
-                            the <code>.accordion-flush</code> class. This is the third item's accordion body. Nothing more
-                            exciting happening here in terms of content, but just filling up the space to make it look, at
-                            least at first glance, a bit more representative of how this would look in a real-world
-                            application.
+                            {% trans "We strive to make your payment process seamless and secure. You can conveniently pay using your Clyde Ryde wallet, which you can top up as needed, ensuring a hassle-free rental experience every time!" %}
                         </div>
                     </div>
                 </div>
@@ -170,11 +153,22 @@
     </section>
     <section class="p-5" id="contact">
         <div class="container">
-            <h2 class="text-center mb-4">Contact Us</h2>
+            <h2 class="text-center mb-4">{% trans "Contact Us" %}</h2>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item">Phone: 123456789</li>
-                <li class="list-group-item">Email: 123456@gla.uk</li>
-                <li class="list-group-item">Address: G11</li>
+                <li class="list-group-item">
+                    <i class="bi bi-telephone me-2"></i>
+                    <strong>{% trans "Phone" %}:</strong><a href="tel:+447587657475">+44 (0) 7587 657475</a>
+                </li>
+                <li class="list-group-item">
+                    <i class="bi bi-envelope me-2"></i>
+                    <strong>{% trans "Email" %}:</strong><a href="mailto:clyde-ryde@student.gla.uk">clyde-ryde@student.gla.uk</a>
+                </li>
+                <li class="list-group-item">
+                    <i class="bi bi-geo-alt me-2"></i>
+                    <strong>{% trans "Address" %}:</strong><a href="https://www.google.com/maps/search/?api=1&query=1028+Boyd+Orr+Building,+University+Ave,+Glasgow+G12+8SP"
+   target="_blank">1028 Boyd Orr Building, University Ave, Glasgow G12 8SP</a>
+                </li>
+
             </ul>
         </div>
     </section>

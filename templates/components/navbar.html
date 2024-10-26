@@ -15,19 +15,19 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 {% if not user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="#home">Home</a>
+                        <a class="nav-link" href="{% url 'home' %}#home">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#rent">Business Layout</a>
+                        <a class="nav-link" href="{% url 'home' %}#fleet">Our Fleet</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#response">Social Responsibility</a>
+                        <a class="nav-link" href="{% url 'home' %}#response">Social Responsibility</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#faq">FAQ</a>
+                        <a class="nav-link" href="{% url 'home' %}#faq">FAQ</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#contact">Contact us</a>
+                        <a class="nav-link" href="{% url 'home' %}#contact">Contact Us</a>
                     </li>
                 {% endif %}
             </ul>
