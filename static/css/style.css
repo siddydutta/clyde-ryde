@@ -7,8 +7,21 @@ body {
     flex-direction: column;
 }
 
+h2 {
+    color: #333333;
+    font-weight: 700;
+    text-align: center;
+}
+
 .content {
     flex: 1;
+    min-height: calc(100vh - 100px);
+    display: flex;
+    align-items: center;
+    background-color: #f8f9fa;
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    padding-bottom: 3rem;
 }
 
 
@@ -46,4 +59,10 @@ body {
 .btn-cr-dark:hover {
     background-color: #333333;
     color: #ffffff;
+}
+
+#map {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }

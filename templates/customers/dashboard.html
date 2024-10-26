@@ -9,8 +9,10 @@
 {% endblock navbar %}
 
 {% block content %}
-    <div class="container mt-5 pt-4">
-        <h1>Customer Dashboard</h1>
-        <h2>Welcome, {{ user.username }}!</h2>
+    <div class="content">
+        <div class="container d-flex flex-column align-items-center">
+            <h1>Customer Dashboard</h1>
+            <h2>Welcome, {{ user.username }}!</h2>
+        </div>
     </div>
 {% endblock content %}

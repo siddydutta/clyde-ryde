@@ -124,7 +124,7 @@ class TripDurationView(LoginRequiredMixin, DateFilterMixin, TemplateView):
         query = Trip.objects.only('start_time', 'end_time').filter(
             start_time__date__range=[from_date, to_date], status=Trip.Status.COMPLETED
         )
-        trip_durations = [trip.duration / 60 for trip in query]
+        trip_durations = [trip.duration / 60 for trip in query] or [0]
         bin_edges = np.arange(0, max(trip_durations) + 10, 30)  # bins of 30 minutes
         hist, bin_edges = np.histogram(trip_durations, bins=bin_edges)
 
