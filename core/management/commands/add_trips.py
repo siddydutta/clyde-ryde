@@ -47,14 +47,23 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         start_date = options['start_date']
         end_date = options['end_date']
-        n_days = (end_date - start_date).days
+        n_trips = options['number']
 
+        existing_count = Trip.objects.filter(
+            start_time__date__range=[start_date, end_date]
+        ).count()
+        if existing_count >= n_trips:
+            self.stdout.write(self.style.WARNING('[ADD TRIPS] Skipped.'))
+            return
+        n_trips -= existing_count
+
+        n_days = (end_date - start_date).days
         User = get_user_model()
         customers = list(User.objects.filter(type=User.Type.CUSTOMER))
         locations = list(Location.objects.all())
         vehicles = list(Vehicle.objects.all())
         count = 0
-        for _ in range(options['number']):
+        for _ in range(n_trips):
             start_location = choice(locations)
             end_location = choice(locations)
             while start_location == end_location:
@@ -92,5 +101,4 @@ class Command(BaseCommand):
                 paid_at=end_time,
             )
             count += 1
-
-        self.stdout.write(self.style.SUCCESS(f'Successfully added {count} trips'))
+        self.stdout.write(self.style.SUCCESS(f'[ADD TRIPS] Added {n_trips} trip(s).'))

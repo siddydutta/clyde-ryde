@@ -101,14 +101,14 @@ docker-compose exec web python manage.py createsuperuser
 
 
 ## Management Commands to Add Dummy Data
+### Add Customers
+```shell
+python manage.py add_customers
+```
+
 ### Add Locations
 ```shell
 python manage.py add_locations
-```
-
-### Add Vehicle Types
-```shell
-python manage.py add_vehicle_types
 ```
 
 ### Add Vehicles
