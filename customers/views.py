@@ -1,3 +1,4 @@
+from django.db.models import Prefetch
 from django.db.models.query import QuerySet
 from django.views.generic import ListView, DetailView, TemplateView
 from django.views.generic.edit import CreateView
@@ -41,13 +42,41 @@ class LocationDetailView(LoginRequiredMixin, DetailView):
     model = Location
     template_name = 'customers/location_detail.html'
     context_object_name = 'location'
+    queryset = Location.objects.only('name', 'address')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['available_vehicles'] = self.object.vehicles.filter(
-            status=Vehicle.Status.AVAILABLE
-        )
+        context['model_filters'] = self.object.vehicles.values_list(
+            'type_id', 'type__model'
+        ).distinct()
         return context
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        vehicle_qs = (
+            Vehicle.objects.only(
+                'code',
+                'battery_level',
+                'location_id',
+                'type__model',
+                'type__brand',
+                'type__rate',
+                'type__image',
+            )
+            .select_related('type')
+            .filter(status=Vehicle.Status.AVAILABLE)
+        )
+        sort, filter = self.request.GET.get('sort'), self.request.GET.get('filter')
+        if sort == 'rate':
+            vehicle_qs = vehicle_qs.order_by('type__rate')
+        elif sort == 'battery_level':
+            vehicle_qs = vehicle_qs.order_by('-battery_level')
+        if filter:
+            vehicle_qs = vehicle_qs.filter(type_id=filter)
+        queryset = queryset.prefetch_related(
+            Prefetch('vehicles', queryset=vehicle_qs, to_attr='available_vehicles')
+        )
+        return queryset
 
 
 class RentVehicleView(LoginRequiredMixin, CreateView):

@@ -64,6 +64,7 @@ class Command(BaseCommand):
                     'code': str(random.randint(100000, 999999)),
                     'type_id': random.choice(vehicle_type_ids),
                     'location_id': random.choice(location_ids),
+                    'battery_level': random.randint(10, 100),
                 }
             )
             if created:
