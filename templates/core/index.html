@@ -23,8 +23,9 @@
                         {% trans "Clyde Ryde is your go-to app for convenient urban transportation. We offer three distinct vehicle types to suit your travel needs: bicycles, electric bikes, and scooters. With our platform, you can easily navigate the city and find the perfect ride at any time. Experience the freedom to move around effortlessly, with the flexibility to pick up and drop off wherever you like. Join us in revolutionizing urban mobility!" %}
                     </p>
                     {% if not user.is_authenticated %}
-                        <a href="{% url 'customer_register' %}" class="btn btn-warning btn-lg">{% trans "Register" %}</a>
-                        <a href="{% url 'customer_login' %}" class="btn btn-warning btn-lg">{% trans "Login" %}</a>
+                        <a href="{% url 'customer_register' %}"
+                           class="btn btn-lg btn-cr-light m-1">{% trans "Register" %}</a>
+                        <a href="{% url 'customer_login' %}" class="btn btn-lg btn-cr-light m-1">{% trans "Login" %}</a>
                     {% endif %}
                 </div>
                 <img src="{% static 'images/main_image.webp' %}"

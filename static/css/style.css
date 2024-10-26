@@ -26,3 +26,24 @@ body {
     line-height: 1;
     margin: 5px;
 }
+
+.btn-cr-light {
+    background-color: #ffd700;
+    color: #333333;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+.btn-cr-light:hover {
+    color: #ffffff;
+}
+
+.btn-cr-dark {
+    background-color: #333333;
+    color: #ffd700;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+.btn-cr-dark:hover {
+    background-color: #333333;
+    color: #ffffff;
+}
