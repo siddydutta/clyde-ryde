@@ -1,16 +1,16 @@
-from django.db.models.query import QuerySet
-from django.views.generic import ListView, DetailView, TemplateView
-from django.views.generic.edit import CreateView
 from django.conf import settings
-from django.db import transaction
-from django.urls import reverse_lazy
-from django.shortcuts import get_object_or_404, redirect
-from core.models import Location, Trip, Vehicle
-from django.utils import timezone
 from django.contrib import messages
+from django.db import transaction
+from django.db.models import Prefetch
+from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse_lazy
+from django.utils import timezone
 from django.views import View
-from customers.forms import ReturnVehicleForm
+from django.views.generic import DetailView, ListView, TemplateView
+from django.views.generic.edit import CreateView
 
+from core.models import Location, Trip, Vehicle
+from customers.forms import ReturnVehicleForm
 from customers.mixins import LoginRequiredMixin
 from customers.models import Payment
 from users.models import CustomUser
@@ -41,13 +41,41 @@ class LocationDetailView(LoginRequiredMixin, DetailView):
     model = Location
     template_name = 'customers/location_detail.html'
     context_object_name = 'location'
+    queryset = Location.objects.only('name', 'address')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['available_vehicles'] = self.object.vehicles.filter(
-            status=Vehicle.Status.AVAILABLE
-        )
+        context['model_filters'] = self.object.vehicles.values_list(
+            'type_id', 'type__model'
+        ).distinct()
         return context
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        vehicle_qs = (
+            Vehicle.objects.only(
+                'code',
+                'battery_level',
+                'location_id',
+                'type__model',
+                'type__brand',
+                'type__rate',
+                'type__image',
+            )
+            .select_related('type')
+            .filter(status=Vehicle.Status.AVAILABLE)
+        )
+        sort, filter = self.request.GET.get('sort'), self.request.GET.get('filter')
+        if sort == 'rate':
+            vehicle_qs = vehicle_qs.order_by('type__rate')
+        elif sort == 'battery_level':
+            vehicle_qs = vehicle_qs.order_by('-battery_level')
+        if filter:
+            vehicle_qs = vehicle_qs.filter(type_id=filter)
+        queryset = queryset.prefetch_related(
+            Prefetch('vehicles', queryset=vehicle_qs, to_attr='available_vehicles')
+        )
+        return queryset
 
 
 class RentVehicleView(LoginRequiredMixin, CreateView):
@@ -60,12 +88,9 @@ class RentVehicleView(LoginRequiredMixin, CreateView):
             start_location=vehicle.location,
             status=Trip.Status.IN_PROGRESS,
         )
-
         vehicle.status = Vehicle.Status.IN_USE
-        vehicle.save()
-
+        vehicle.save(update_fields=['status'])
         messages.success(request, f'You have successfully rented {vehicle.type.model}.')
-
         return redirect('trip_detail', pk=trip.pk)
 
 
@@ -73,8 +98,11 @@ class TripDetailView(LoginRequiredMixin, DetailView):
     model = Trip
     template_name = 'customers/trip_detail.html'
     context_object_name = 'trip'
+    queryset = Trip.objects.select_related(
+        'vehicle__type', 'start_location', 'end_location', 'payment'
+    )
 
-    def get_queryset(self) -> QuerySet[Trip]:
+    def get_queryset(self):
         return super().get_queryset().filter(user=self.request.user)
 
     def get_context_data(self, **kwargs):
@@ -113,7 +141,7 @@ class ReportVehicleView(LoginRequiredMixin, View):
             messages.error(request, 'The vehicle is already reported!')
         else:
             trip.vehicle.status = Vehicle.Status.DEFECTIVE
-            trip.vehicle.save()
+            trip.vehicle.save(update_fields=['status'])
             messages.success(request, 'The vehicle has been reported as defective.')
         return redirect('trip_detail', pk=trip.pk)
 
@@ -122,12 +150,15 @@ class TripPayment(LoginRequiredMixin, View):
     def post(self, request, trip_id: int, payment_id: int):
         payment = get_object_or_404(Payment, id=payment_id)
         trip_cost = payment.trip.compute_cost()
-        if request.user.wallet.debit(trip_cost):
-            payment.complete_payment()
-            messages.success(
-                request,
-                f'You have been charged {trip_cost:.2f}.',
-            )
-        else:
-            messages.error(request, 'Insufficient balance. Please top-up your wallet.')
+        with transaction.atomic():
+            if request.user.wallet.debit(trip_cost):
+                payment.complete_payment()
+                messages.success(
+                    request,
+                    f'You have been charged {trip_cost:.2f}.',
+                )
+            else:
+                messages.error(
+                    request, 'Insufficient balance. Please top-up your wallet.'
+                )
         return redirect('trip_detail', pk=payment.trip.pk)
