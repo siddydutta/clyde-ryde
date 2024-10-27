@@ -1323,7 +1323,7 @@ msgstr "La valeur “%(value)s” doit être un entier."
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2062
 msgid "Integer"
-msgstr ""
+msgstr "Entier"
 
 #: venv/lib/python3.12/site-packages/django/db/models/fields/__init__.py:2158
 #, fuzzy
