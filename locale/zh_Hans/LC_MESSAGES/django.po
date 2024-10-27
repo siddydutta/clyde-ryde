@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-27 22:14+0000\n"
+"POT-Creation-Date: 2024-10-27 22:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -503,6 +503,10 @@ msgstr "最后更新"
 #: templates/customers/wallet.html:38
 msgid "Top Up Wallet"
 msgstr "充值钱包"
+
+#: templates/customers/wallet.html:47
+msgid "Enter amount"
+msgstr "输入金额"
 
 #: templates/customers/wallet.html:52
 msgid "Top Up Now"
@@ -2093,7 +2097,9 @@ msgstr "没有可用的%(verbose_name_plural)s"
 msgid ""
 "Future %(verbose_name_plural)s not available because %(class_name)s."
 "allow_future is False."
-msgstr "未来的%(verbose_name_plural)s不可用，因为%(class_name)s的allow_future为False。"
+msgstr ""
+"未来的%(verbose_name_plural)s不可用，因为%(class_name)s的allow_future为"
+"False。"
 
 #: venv/lib/python3.12/site-packages/django/views/generic/dates.py:692
 #, python-format
@@ -2145,7 +2151,9 @@ msgstr "安装成功！恭喜！"
 msgid ""
 "View <a href=\"https://docs.djangoproject.com/en/%(version)s/releases/\" "
 "target=\"_blank\" rel=\"noopener\">release notes</a> for Django %(version)s"
-msgstr "查看Django %(version)s的<a href=\"https://docs.djangoproject.com/en/%(version)s/releases/\" target=\"_blank\" rel=\"noopener\">发布说明</a>"
+msgstr ""
+"查看Django %(version)s的<a href=\"https://docs.djangoproject.com/en/"
+"%(version)s/releases/\" target=\"_blank\" rel=\"noopener\">发布说明</a>"
 
 #: venv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:208
 #, python-format
@@ -2154,7 +2162,10 @@ msgid ""
 "%(version)s/ref/settings/#debug\" target=\"_blank\" "
 "rel=\"noopener\">DEBUG=True</a> is in your settings file and you have not "
 "configured any URLs."
-msgstr "您看到此页面是因为您的设置文件中有<a href=\"https://docs.djangoproject.com/en/%(version)s/ref/settings/#debug\" target=\"_blank\" rel=\"noopener\">DEBUG=True</a>，并且您尚未配置任何URL。"
+msgstr ""
+"您看到此页面是因为您的设置文件中有<a href=\"https://docs.djangoproject.com/"
+"en/%(version)s/ref/settings/#debug\" target=\"_blank\" "
+"rel=\"noopener\">DEBUG=True</a>，并且您尚未配置任何URL。"
 
 #: venv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:217
 msgid "Django Documentation"
