@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 
+{% load i18n %}
+
 {% block title %}
-    Dashboard
+    {% trans "Dashboard" %}
 {% endblock title %}
 
 {% block navbar %}
@@ -9,8 +11,52 @@
 {% endblock navbar %}
 
 {% block content %}
-    <div class="container mt-5 pt-4">
-        <h1>Operator Dashboard</h1>
-        <h2>Welcome, {{ user.username }}!!</h2>
+    <div class="content" style="align-items: stretch;">
+        <div class="container">
+            <div class="row mb-4">
+                <div class="col-12">
+                    <h2 class="mb-3">{% trans "Welcome" %}, {{ user.username }}!</h2>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-6 mb-3">
+                    <div class="stat-card p-3 text-center">
+                        <h5 class="text-muted">{% trans "Total Locations" %}</h5>
+                        <h3 class="stat-value">{{ locations_count }}</h3>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="stat-card p-3 text-center">
+                        <h5 class="text-muted">{% trans "Total Vehicles" %}</h5>
+                        <h3 class="stat-value">{{ vehicles_count }}</h3>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="stat-card p-3 text-center">
+                        <h5 class="text-muted">{% trans "Available Vehicles" %}</h5>
+                        <h3 class="stat-value">{{ vehicle_status_count.available|default:0 }}</h3>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="stat-card p-3 text-center">
+                        <h5 class="text-muted">{% trans "In-Use Vehicles" %}</h5>
+                        <h3 class="stat-value">{{ vehicle_status_count.in_use|default:0 }}</h3>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="stat-card p-3 text-center">
+                        <h5 class="text-muted">{% trans "Defective Vehicles" %}</h5>
+                        <h3 class="stat-value">{{ vehicle_status_count.defective|default:0 }}</h3>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="stat-card p-3 text-center">
+                        <h5 class="text-muted">{% trans "Discharged Vehicles" %}</h5>
+                        <h3 class="stat-value">{{ vehicle_status_count.discharged|default:0 }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock content %}

@@ -66,7 +66,7 @@ class Vehicle(models.Model):
     def save(self, *args, **kwargs):
         if not self.code:
             self.code = self.__generate_unique_code()
-        if self.battery_level == 0:
+        if self.battery_level == 0 and self.status != Vehicle.Status.DEFECTIVE:
             self.status = Vehicle.Status.DISCHARGED
         super().save(*args, **kwargs)
 
