@@ -39,6 +39,11 @@ class Payment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        indexes = [
+            models.Index(fields=['created_at']),
+        ]
+
     def __str__(self):
         return f'{self.trip} - {self.amount}'
 

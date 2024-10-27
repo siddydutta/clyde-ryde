@@ -4,8 +4,8 @@
 {% load tz %}
 
 {% block title %}
-    {% trans "Dashboard" %}
-{% endblock title %}
+    {% trans "Wallet" %}
+{% endblock %}
 
 {% block navbar %}
     {% include "components/navbar.html" %}
@@ -16,83 +16,83 @@
         <div class="container">
             <div class="row mb-4">
                 <div class="col-12">
-                    <h2 class="mb-3">{% trans "Welcome" %}, {{ user.username }}!</h2>
+                    <h2 class="mb-3">{% trans "My Wallet" %}</h2>
                 </div>
             </div>
 
             <div class="row mb-4">
-                <div class="col-md-6 mb-3">
-                    <div class="stat-card p-3 text-center">
-                        <h5 class="text-muted">{% trans "Total Trips" %}</h5>
-                        <h3 class="stat-value">{{ page_obj.paginator.count|default:0 }}</h3>
-                    </div>
-                </div>
-                <div class="col-md-6 mb-3">
-                    <div class="stat-card p-3 text-center">
+                <div class="col-md-4 mb-3">
+                    <div class="stat-card p-3 text-center h-100 d-flex align-items-center justify-content-center flex-column">
                         <h5 class="text-muted">{% trans "Wallet Balance" %}</h5>
                         <h3 class="stat-value">£{{ user.wallet.balance|floatformat:2 }}</h3>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="stat-card p-3 text-center h-100 d-flex align-items-center justify-content-center flex-column">
+                        <h5 class="text-muted">{% trans "Last Updated" %}</h5>
+                        <h3 class="stat-value">{{ user.wallet.updated_at|date:"j M Y, H:i" }}</h3>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="stat-card p-3 text-center h-100">
+                        <h5 class="text-muted">{% trans "Top Up Wallet" %}</h5>
+                        <form id="topup-form" method="post" action="{% url 'wallet' %}">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <input type="number"
+                                       class="form-control"
+                                       id="topup-amount"
+                                       name="amount"
+                                       step="0.1"
+                                       placeholder="Enter amount"
+                                       min="1"
+                                       max="100"
+                                       required>
+                            </div>
+                            <button type="submit" class="btn btn-cr-dark w-100">{% trans "Top Up Now" %}</button>
+                        </form>
                     </div>
                 </div>
             </div>
 
             <div class="card">
                 <div class="card-body">
-                    <h2 class="card-title mb-4">{% trans "My Trips" %}</h2>
+                    <h2 class="card-title mb-4">{% trans "My Payments" %}</h2>
                     <div class="table-responsive">
                         <table class="table table-striped text-center">
                             <thead>
                                 <tr>
                                     <th>{% trans "Date" %}</th>
-                                    <th>{% trans "Vehicle" %}</th>
-                                    <th>{% trans "Start Location" %}</th>
-                                    <th>{% trans "Duration" %}</th>
-                                    <th>{% trans "Trip Status" %}</th>
-                                    <th>{% trans "Charge" %}</th>
-                                    <th>{% trans "Payment Status" %}</th>
-                                    <th>{% trans "Action" %}</th>
+                                    <th>{% trans "Amount" %}</th>
+                                    <th>{% trans "Status" %}</th>
+                                    <th>{% trans "Completed At" %}</th>
+                                    <th>{% trans "Trip" %}</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for trip in trips %}
+                                {% for payment in payments %}
                                     <tr>
-                                        <td>{{ trip.start_time|timezone:"Europe/London"|date }}</td>
-                                        <td>{{ trip.vehicle.type.model }}</td>
-                                        <td>{{ trip.start_location.name }}</td>
-                                        <td>{{ trip.formatted_duration|default_if_none:"" }}</td>
+                                        <td>{{ payment.created_at|date }}</td>
+                                        <td>£ {{ payment.amount }}</td>
                                         <td>
                                             <span class="badge
-                                                         {% if trip.status == 'completed' %}
+                                                         {% if payment.status == 'completed' %}
                                                              bg-success
-                                                         {% elif trip.status == 'in_progress' %}
+                                                         {% elif payment.status == 'pending' %}
                                                              bg-warning
                                                          {% else %}
                                                              bg-primary
-                                                         {% endif %}">{{ trip.get_status_display }}</span>
+                                                         {% endif %}">{{ payment.get_status_display }}</span>
                                         </td>
+                                        <td>{{ payment.paid_at|default_if_none:"" }}</td>
                                         <td>
-                                            {% if trip.payment %}£{% endif %}
-                                            {{ trip.payment.amount|floatformat:2 }}
-                                        </td>
-                                        <td>
-                                            <span class="badge
-                                                         {% if trip.payment.status == 'completed' %}
-                                                             bg-success
-                                                         {% elif trip.payment.status == 'pending' %}
-                                                             bg-warning
-                                                         {% else %}
-                                                             bg-primary
-                                                         {% endif %}">{{ trip.payment.get_status_display }}</span>
-                                        </td>
-                                        <td>
-                                            <a href="{% url 'trip_detail' trip.pk %}"
-                                               class="btn btn-sm btn-cr-outline">
-                                                <i class="bi bi-eye"></i> {% trans "View" %}
-                                            </a>
+                                            <a href="{% url 'trip_detail' payment.trip_id %}"
+                                               class="btn btn-sm btn-cr-outline"><i class="bi bi-eye"></i> {% trans "View" %}</a>
                                         </td>
                                     </tr>
                                 {% empty %}
                                     <tr>
-                                        <td colspan="8" class="text-center">{% trans "No trips found." %}</td>
+                                        <td colspan="5" class="text-center">{% trans "No transactions found." %}</td>
                                     </tr>
                                 {% endfor %}
                             </tbody>

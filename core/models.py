@@ -108,6 +108,11 @@ class Trip(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        indexes = [
+            models.Index(fields=['start_time']),
+        ]
+
     def __str__(self):
         return f'Trip #{self.pk} by {self.user} on {self.vehicle}'
 

@@ -1,7 +1,9 @@
+from decimal import Decimal
 from django.conf import settings
 from django.contrib import messages
 from django.db import transaction
 from django.db.models import Prefetch
+from django.db.models.query import QuerySet
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.utils import timezone
@@ -22,8 +24,40 @@ class LoginView(BaseUserLoginView):
     user_type = CustomUser.Type.CUSTOMER
 
 
-class DashboardView(LoginRequiredMixin, TemplateView):
+class DashboardView(LoginRequiredMixin, ListView):
     template_name = 'customers/dashboard.html'
+    model = Trip
+    queryset = Trip.objects.select_related('start_location', 'payment')
+    context_object_name = 'trips'
+    paginate_by = 10
+    ordering = '-start_time'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(user=self.request.user)
+        return queryset
+
+
+class Wallet(LoginRequiredMixin, ListView):
+    template_name = 'customers/wallet.html'
+    model = Payment
+    context_object_name = 'payments'
+    paginate_by = 10
+    ordering = '-created_at'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.filter(trip__user=self.request.user)
+        return queryset
+
+    def post(self, request):
+        amount = request.POST.get('amount')
+        if amount:
+            with transaction.atomic():
+                request.user.wallet.balance += Decimal(amount)
+                request.user.wallet.save(update_fields=['balance', 'updated_at'])
+                messages.success(request, f'You have successfully topped up £{amount}.')
+        return redirect('wallet')
 
 
 class LocationListView(LoginRequiredMixin, ListView):
@@ -125,7 +159,7 @@ class ReturnVehicleView(LoginRequiredMixin, View):
                         payment.complete_payment()
                         messages.success(
                             request,
-                            f'Trip completed! You have been charged {trip_cost:.2f}.',
+                            f'Trip completed! You have been charged £{trip_cost:.2f}.',
                         )
                     else:
                         messages.error(
@@ -155,7 +189,7 @@ class TripPayment(LoginRequiredMixin, View):
                 payment.complete_payment()
                 messages.success(
                     request,
-                    f'You have been charged {trip_cost:.2f}.',
+                    f'You have been charged £{trip_cost:.2f}.',
                 )
             else:
                 messages.error(
