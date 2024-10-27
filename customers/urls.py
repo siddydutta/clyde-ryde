@@ -9,6 +9,7 @@ from customers.views import (
     ReturnVehicleView,
     ReportVehicleView,
     TripPayment,
+    Wallet,
 )
 
 urlpatterns = [
@@ -29,4 +30,5 @@ urlpatterns = [
         TripPayment.as_view(),
         name='trip_payment',
     ),
+    path('wallet/', Wallet.as_view(), name='wallet'),
 ]
