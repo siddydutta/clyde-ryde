@@ -56,11 +56,11 @@
                             <div class="card-body">
                                 <h5 class="card-title" style="font-weight: 600;">{{ vehicle.code }}</h5>
                                 <p class="card-text">
-                                    <strong>Model:</strong> {{ vehicle.type.model }}
+                                    <strong>{% trans "Model" %}:</strong> {{ vehicle.type.model }}
                                     <br>
-                                    <strong>Brand:</strong> {{ vehicle.type.brand }}
+                                    <strong>{% trans "Brand" %}:</strong> {{ vehicle.type.brand }}
                                     <br>
-                                    <strong>Battery Level:</strong>
+                                    <strong>{% trans "Battery Level" %}:</strong>
                                     <span class="badge
                                                  {% if vehicle.battery_level < 20 %}
                                                      bg-danger
@@ -70,7 +70,7 @@
                                                      bg-success
                                                  {% endif %}">{{ vehicle.battery_level }}%</span>
                                     <br>
-                                    <strong>Price:</strong> £{{ vehicle.type.rate|floatformat:"g" }} / hour
+                                    <strong>{% trans "Fare" %}"</strong> £{{ vehicle.type.rate|floatformat:"g" }} / {% trans "hour" %}
                                 </p>
                                 <form action="{% url 'rent_vehicle' vehicle.code %}"
                                       method="post"

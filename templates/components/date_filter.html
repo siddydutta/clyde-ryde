@@ -1,10 +1,12 @@
+{% load i18n %}
+
 <form id="dateRangeForm"
       method="get"
       action=""
       class="bg-light p-4 rounded shadow-sm">
     <div class="row g-3 align-items-end">
         <div class="col-md-4">
-            <label for="fromDate" class="form-label">From Date:</label>
+            <!-- <label for="fromDate" class="form-label">{% trans "From Date" %}:</label> -->
             <input type="date"
                    id="fromDate"
                    name="from_date"
@@ -13,7 +15,7 @@
                    value="{{ from_date }}">
         </div>
         <div class="col-md-4">
-            <label for="toDate" class="form-label">To Date:</label>
+            <!-- <label for="toDate" class="form-label">{% trans "To Date" %}:</label> -->
             <input type="date"
                    id="toDate"
                    name="to_date"
@@ -22,7 +24,7 @@
                    value="{{ to_date }}">
         </div>
         <div class="col-md-4">
-            <button type="submit" class="btn btn-primary w-100">Generate Report</button>
+            <button type="submit" class="btn btn-primary w-100">{% trans "Generate Report" %}</button>
         </div>
     </div>
 </form>

@@ -15,7 +15,7 @@
     <div class="content">
         <div class="container d-flex flex-column align-items-center">
             <h2 class="mb-4">{% trans "Available Locations" %}</h2>
-            <button id="locate-me" class="btn btn-cr-dark mb-1">Locate Me</button>
+            <button id="locate-me" class="btn btn-cr-dark mb-1">{% trans "Locate Me" %}</button>
             <div id="map" style="height: calc(100vh - 250px);"></div>
         </div>
     </div>
@@ -26,10 +26,10 @@
         var locations_data = [
             {% for location in locations %}
                 {
-                    lat: {{ location.latitude }},
-                    lng: {{ location.longitude }},
-                    name: "{{ location.name }}",
-                    address: "{{ location.address }}",
+                    lat: {{ location.latitude|safe }},
+                    lng: {{ location.longitude|safe }},
+                    name: "{{ location.name|safe }}",
+                    address: "{{ location.address|safe }}",
                     url: "{% url 'location_detail' location.pk %}"
                 },
             {% endfor %}

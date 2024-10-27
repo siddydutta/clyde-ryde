@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% load i18n %}
+{% load tz %}
 
 {% block title %}
     {% trans "Vehicle Detail" %}
@@ -13,7 +14,7 @@
 {% block content %}
     <div class="content">
         <div class="container">
-            <h2 class="mb-4">{% trans "Manage Vehicle:" %} {{ vehicle.code }}</h2>
+            <h2 class="mb-4">{% trans "Manage Vehicle" %}: {{ vehicle.code }}</h2>
 
             <div class="card mb-4">
                 <div class="card-body">
@@ -78,7 +79,7 @@
                             </tr>
                             <tr>
                                 <th scope="row" class="text-end">{% trans "Last Updated" %}</th>
-                                <td>{{ vehicle.updated_at|date:"j M Y, H:i" }}</td>
+                                <td>{{ vehicle.updated_at|timezone:"Europe/London"|date:"j M Y, H:i" }}</td>
                             </tr>
                         </tbody>
                     </table>
