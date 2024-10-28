@@ -3,22 +3,28 @@ from django.contrib.auth import get_user_model
 
 
 CUSTOMERS = [
-    {'username': 'john_doe', 'email': 'john_doe@clyderyde.com', 'type': 'customer'},
-    {'username': 'jane_smith', 'email': 'jane_smith@clyderyde.com', 'type': 'customer'},
     {
-        'username': 'michael_brown',
-        'email': 'michael_brown@clyderyde.com',
-        'type': 'customer',
+        'username': 'admin',
+        'email': 'admin@clyryde.com',
+        'is_superuser': True,
+        'is_staff': True,
     },
+    {'username': 'john', 'email': 'john_doe@clyderyde.com', 'type': 'customer'},
+    {'username': 'jane', 'email': 'jane_smith@clyderyde.com', 'type': 'customer'},
     {
-        'username': 'emily_jones',
+        'username': 'emily',
         'email': 'emily_jones@clyderyde.com',
         'type': 'customer',
     },
     {
-        'username': 'william_johnson',
+        'username': 'michael',
+        'email': 'michael_brown@clyderyde.com',
+        'type': 'operator',
+    },
+    {
+        'username': 'william',
         'email': 'william_johnson@clyderyde.com',
-        'type': 'customer',
+        'type': 'manager',
     },
 ]
 
@@ -31,11 +37,7 @@ class Command(BaseCommand):
 
         count = 0
         for customer_data in CUSTOMERS:
-            user, created = User.objects.get_or_create(
-                username=customer_data['username'],
-                email=customer_data['email'],
-                type=customer_data['type'],
-            )
+            user, created = User.objects.get_or_create(**customer_data)
             if created:
                 user.set_password('password')
                 user.save()

@@ -11,10 +11,10 @@
 {% endblock navbar %}
 
 {% block content %}
-    <div class="container mt-5 pt-4">
+    <div class="content">
         <div class="container d-flex justify-content-between align-items-start">
-            <h1 class="mb-0">{% trans "Current Vehicle Count by Location Report" %}</h1>
-            <a href="{% url 'vehicle_count' %}?download=csv" class="btn btn-primary">{% trans "Download as CSV" %}</a>
+            <h2 class="mb-0">{% trans "Current Vehicle Count by Location" %}</h2>
+            <a href="{% url 'vehicle_count' %}?download=csv" class="btn btn-cr-dark">{% trans "Download as CSV" %}</a>
         </div>
 
         <div class="container my-4">
@@ -39,17 +39,17 @@
                     labels: {{ locations|safe }},
                     datasets: [
                         {
-                            label: 'Available Vehicles',
+                            label: '{% trans "Available Vehicles" %}',
                             data: {{ available_counts|safe }},
-                            backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                            borderColor: 'rgba(54, 162, 235, 1)',
+                            backgroundColor: 'rgba(255, 215, 0, 0.7)',
+                            borderColor: '#ffd700',
                             borderWidth: 1
                         },
                         {
-                            label: 'Defective Vehicles',
+                            label: '{% trans "Defective Vehicles" %}',
                             data: {{ defective_counts|safe }},
-                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                            borderColor: 'rgba(255, 99, 132, 1)',
+                            backgroundColor: 'rgba(51, 51, 51, 0.8)',
+                            borderColor: '#333333',
                             borderWidth: 1
                         }
                     ]
@@ -63,14 +63,14 @@
                             stacked: true,
                             title: {
                                 display: true,
-                                text: 'Number of Vehicles'
+                                text: '{% trans "Number of Vehicles" %}'
                             }
                         },
                         y: {
                             stacked: true,
                             title: {
                                 display: true,
-                                text: 'Location'
+                                text: '{% trans "Location" %}'
                             }
                         }
                     }

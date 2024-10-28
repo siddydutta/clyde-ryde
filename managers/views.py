@@ -11,7 +11,7 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 
 from core.models import Trip, Vehicle
-from customers.models import Payment
+from customers.models import Payment, Wallet
 from managers.mixins import DateFilterMixin, LoginRequiredMixin
 from users.models import CustomUser
 from users.views import BaseUserLoginView
@@ -24,6 +24,29 @@ class LoginView(BaseUserLoginView):
 
 class DashboardView(LoginRequiredMixin, TemplateView):
     template_name = 'managers/dashboard.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['customers_count'] = CustomUser.objects.filter(
+            type=CustomUser.Type.CUSTOMER
+        ).count()
+        context['operators_count'] = CustomUser.objects.filter(
+            type=CustomUser.Type.OPERATOR
+        ).count()
+        context['managers_count'] = CustomUser.objects.filter(
+            type=CustomUser.Type.MANAGER
+        ).count()
+        context['total_revenue'] = (
+            Payment.objects.filter(status=Payment.Status.COMPLETED).aggregate(
+                Sum('amount')
+            )['amount__sum']
+            or 0
+        )
+        context['total_wallet_balance'] = (
+            Wallet.objects.aggregate(Sum('balance'))['balance__sum'] or 0
+        )
+        context['total_trips'] = Trip.objects.count()
+        return context
 
 
 class RevenueView(LoginRequiredMixin, DateFilterMixin, TemplateView):

@@ -21,39 +21,39 @@
 
             <div class="row mb-4">
                 <div class="col-md-6 mb-3">
-                    <div class="stat-card p-3 text-center">
-                        <h5 class="text-muted">{% trans "Total Locations" %}</h5>
-                        <h3 class="stat-value">{{ locations_count }}</h3>
+                    <div class="stat-card p-3 text-center bg-dark rounded shadow-sm text-warning">
+                        <h4 class="text-uppercase" style="color: #ffd700;">{% trans "Total Locations" %}</h4>
+                        <h3 class="stat-value text-light">{{ locations_count }}</h3>
                     </div>
                 </div>
                 <div class="col-md-6 mb-3">
-                    <div class="stat-card p-3 text-center">
-                        <h5 class="text-muted">{% trans "Total Vehicles" %}</h5>
-                        <h3 class="stat-value">{{ vehicles_count }}</h3>
+                    <div class="stat-card p-3 text-center bg-dark bg-light rounded shadow-sm text-warning">
+                        <h4 class="text-uppercase" style="color: #ffd700;">{% trans "Total Vehicles" %}</h4>
+                        <h3 class="stat-value text-light">{{ vehicles_count }}</h3>
                     </div>
                 </div>
                 <div class="col-md-3 mb-3">
-                    <div class="stat-card p-3 text-center">
-                        <h5 class="text-muted">{% trans "Available Vehicles" %}</h5>
-                        <h3 class="stat-value">{{ vehicle_status_count.available|default:0 }}</h3>
+                    <div class="stat-card p-3 text-center bg-dark bg-light rounded shadow-sm text-warning">
+                        <h4 class="text-uppercase" style="color: #ffd700;">{% trans "Available Vehicles" %}</h4>
+                        <h3 class="stat-value text-light">{{ vehicle_status_count.available|default:0 }}</h3>
                     </div>
                 </div>
                 <div class="col-md-3 mb-3">
-                    <div class="stat-card p-3 text-center">
-                        <h5 class="text-muted">{% trans "In-Use Vehicles" %}</h5>
-                        <h3 class="stat-value">{{ vehicle_status_count.in_use|default:0 }}</h3>
+                    <div class="stat-card p-3 text-center bg-dark bg-light rounded shadow-sm text-warning">
+                        <h4 class="text-uppercase" style="color: #ffd700;">{% trans "In-Use Vehicles" %}</h4>
+                        <h3 class="stat-value text-light">{{ vehicle_status_count.in_use|default:0 }}</h3>
                     </div>
                 </div>
                 <div class="col-md-3 mb-3">
-                    <div class="stat-card p-3 text-center">
-                        <h5 class="text-muted">{% trans "Defective Vehicles" %}</h5>
-                        <h3 class="stat-value">{{ vehicle_status_count.defective|default:0 }}</h3>
+                    <div class="stat-card p-3 text-center bg-dark bg-light rounded shadow-sm text-warning">
+                        <h4 class="text-uppercase" style="color: #ffd700;">{% trans "Defective Vehicles" %}</h4>
+                        <h3 class="stat-value text-light">{{ vehicle_status_count.defective|default:0 }}</h3>
                     </div>
                 </div>
                 <div class="col-md-3 mb-3">
-                    <div class="stat-card p-3 text-center">
-                        <h5 class="text-muted">{% trans "Discharged Vehicles" %}</h5>
-                        <h3 class="stat-value">{{ vehicle_status_count.discharged|default:0 }}</h3>
+                    <div class="stat-card p-3 text-center bg-dark bg-light rounded shadow-sm text-warning">
+                        <h4 class="text-uppercase" style="color: #ffd700;">{% trans "Discharged Vehicles" %}</h4>
+                        <h3 class="stat-value text-light">{{ vehicle_status_count.discharged|default:0 }}</h3>
                     </div>
                 </div>
             </div>

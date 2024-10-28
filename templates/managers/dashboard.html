@@ -11,8 +11,106 @@
 {% endblock navbar %}
 
 {% block content %}
-    <div class="container mt-5 pt-4">
-        <h1>Manager Dashboard</h1>
-        <h2>Welcome, {{ user.username }}!!!</h2>
+    <div class="content">
+        <div class="container">
+            <div class="row mb-4">
+                <div class="col-12">
+                    <h2 class="mb-3 text-dark">{% trans "Welcome" %}, {{ user.username }}!</h2>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-md-4 mb-3">
+                    <div class="stat-card p-3 text-center bg-dark rounded shadow-sm text-warning">
+                        <h4 class="text-uppercase" style="color: #ffd700;">{% trans "Total Customers" %}</h4>
+                        <h3 class="stat-value text-light">{{ customers_count }}</h3>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="stat-card p-3 text-center bg-dark rounded shadow-sm text-warning">
+                        <h4 class="text-uppercase" style="color: #ffd700;">{% trans "Total Operators" %}</h4>
+                        <h3 class="stat-value text-light">{{ operators_count }}</h3>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="stat-card p-3 text-center bg-dark rounded shadow-sm text-warning">
+                        <h4 class="text-uppercase" style="color: #ffd700;">{% trans "Total Managers" %}</h4>
+                        <h3 class="stat-value text-light">{{ managers_count }}</h3>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="stat-card p-3 text-center bg-dark rounded shadow-sm text-warning">
+                        <h4 class="text-uppercase" style="color: #ffd700;">{% trans "Total Revenue" %}</h4>
+                        <h3 class="stat-value text-light">£{{ total_revenue|floatformat:2 }}</h3>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="stat-card p-3 text-center bg-dark rounded shadow-sm text-warning">
+                        <h4 class="text-uppercase" style="color: #ffd700;">{% trans "Total Wallet Balance" %}</h4>
+                        <h3 class="stat-value text-light">£{{ total_wallet_balance|floatformat:2 }}</h3>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="stat-card p-3 text-center bg-dark rounded shadow-sm text-warning">
+                        <h4 class="text-uppercase" style="color: #ffd700;">{% trans "Total Trips" %}</h4>
+                        <h3 class="stat-value text-light">{{ total_trips }}</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-12">
+                    <h2 class="mb-3 text-dark">{% trans "View Reports" %}</h2>
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-md-4 mb-3">
+                    <div class="stat-card p-3 text-center bg-dark rounded shadow-sm">
+                        <a href="{% url 'revenue' %}" class="btn-cr-dark">
+                            <h3>
+                                <i class="bi bi-bar-chart-line me-2"></i>{% trans "Revenue" %}
+                            </h3>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="stat-card p-3 text-center bg-dark rounded shadow-sm">
+                        <a href="{% url 'location_popularity' %}" class="btn-cr-dark">
+                            <h3>
+                                <i class="bi bi-geo-alt me-2"></i>{% trans "Location Popularity" %}
+                            </h3>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="stat-card p-3 text-center bg-dark rounded shadow-sm">
+                        <a href="{% url 'trip_duration' %}" class="btn-cr-dark">
+                            <h3>
+                                <i class="bi bi-clock me-2"></i>{% trans "Trip Duration" %}
+                            </h3>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="stat-card p-3 text-center bg-dark rounded shadow-sm">
+                        <a href="{% url 'vehicle_count' %}" class="btn-cr-dark">
+                            <h3>
+                                <i class="bi bi-truck me-2"></i>{% trans "Vehicle Count" %}
+                            </h3>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <div class="stat-card p-3 text-center bg-dark rounded shadow-sm">
+                        <a href="{% url 'vehicle_usage' %}" class="btn-cr-dark">
+                            <h3>
+                                <i class="bi bi-speedometer2 me-2"></i>{% trans "Vehicle Usage" %}
+                            </h3>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
 {% endblock content %}
