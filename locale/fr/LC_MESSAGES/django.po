@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-27 22:23+0000\n"
+"POT-Creation-Date: 2024-10-28 00:50+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -124,24 +124,28 @@ msgstr "Tableau de bord"
 msgid "Track Vehicles"
 msgstr "Suivre les véhicules"
 
-#: templates/components/navbar.html:57 templates/managers/revenue.html:6
+#: templates/components/navbar.html:57 templates/managers/dashboard.html:71
+#: templates/managers/revenue.html:6
 msgid "Revenue"
 msgstr "Revenu"
 
-#: templates/components/navbar.html:60
+#: templates/components/navbar.html:60 templates/managers/dashboard.html:80
 #: templates/managers/location_popularity.html:7
 msgid "Location Popularity"
 msgstr "Popularité des emplacements"
 
-#: templates/components/navbar.html:63 templates/managers/trip_duration.html:6
+#: templates/components/navbar.html:63 templates/managers/dashboard.html:89
+#: templates/managers/trip_duration.html:6
 msgid "Trip Duration"
 msgstr "Durée du trajet"
 
-#: templates/components/navbar.html:66 templates/managers/vehicle_count.html:6
+#: templates/components/navbar.html:66 templates/managers/dashboard.html:98
+#: templates/managers/vehicle_count.html:6
 msgid "Vehicle Count"
 msgstr "Nombre de véhicules"
 
-#: templates/components/navbar.html:69 templates/managers/vehicle_usage.html:6
+#: templates/components/navbar.html:69 templates/managers/dashboard.html:107
+#: templates/managers/vehicle_usage.html:6
 msgid "Vehicle Usage"
 msgstr "Utilisation des véhicules"
 
@@ -273,11 +277,12 @@ msgstr "Email : "
 msgid "Address: "
 msgstr "Adresse : "
 
-#: templates/customers/dashboard.html:19 templates/operators/dashboard.html:18
+#: templates/customers/dashboard.html:19 templates/managers/dashboard.html:18
+#: templates/operators/dashboard.html:18
 msgid "Welcome"
 msgstr "Bienvenue"
 
-#: templates/customers/dashboard.html:26
+#: templates/customers/dashboard.html:26 templates/managers/dashboard.html:55
 msgid "Total Trips"
 msgstr "Total des trajets"
 
@@ -290,6 +295,7 @@ msgid "My Trips"
 msgstr "Mes trajets"
 
 #: templates/customers/dashboard.html:45 templates/customers/wallet.html:65
+#: templates/managers/revenue.html:89
 msgid "Date"
 msgstr "Date"
 
@@ -545,6 +551,30 @@ msgstr "Trajet"
 msgid "No transactions found."
 msgstr "Aucune transaction trouvée."
 
+#: templates/managers/dashboard.html:25
+msgid "Total Customers"
+msgstr "Nombre total de clients"
+
+#: templates/managers/dashboard.html:31
+msgid "Total Operators"
+msgstr "Nombre total d'opérateurs"
+
+#: templates/managers/dashboard.html:37
+msgid "Total Managers"
+msgstr "Nombre total de gestionnaires"
+
+#: templates/managers/dashboard.html:43
+msgid "Total Revenue"
+msgstr "Revenu total"
+
+#: templates/managers/dashboard.html:49
+msgid "Total Wallet Balance"
+msgstr "Solde total du portefeuille"
+
+#: templates/managers/dashboard.html:63
+msgid "View Reports"
+msgstr "Voir les rapports"
+
 #: templates/managers/location_popularity.html:17
 msgid "Location Popularity Heatmap"
 msgstr "Carte de chaleur de popularité des emplacements"
@@ -560,17 +590,66 @@ msgstr "Télécharger en CSV"
 msgid "Revenue Report"
 msgstr "Rapport de revenus"
 
+#: templates/managers/revenue.html:44
+msgid "Cumulative Revenue"
+msgstr "Revenu cumulé"
+
+#: templates/managers/revenue.html:55
+msgid "Daily Revenue"
+msgstr ""
+
+#: templates/managers/revenue.html:72
+msgid "Daily Revenue (in £)"
+msgstr "Revenu quotidien (en £)"
+
+#: templates/managers/revenue.html:80
+msgid "Cumulative Revenue (in £)"
+msgstr "Revenu cumulé (en £)"
+
 #: templates/managers/trip_duration.html:16
-msgid "Trip Duration Histogram Report"
+msgid "Trip Duration Histogram"
 msgstr "Rapport d'histogramme de durée des trajets"
 
+#: templates/managers/trip_duration.html:43
+#: templates/managers/trip_duration.html:69
+msgid "Number of Trips"
+msgstr "Nombre de trajets"
+
+#: templates/managers/trip_duration.html:56
+msgid "Trip Duration (minutes)"
+msgstr "Durée du trajet (minutes)"
+
 #: templates/managers/vehicle_count.html:16
-msgid "Current Vehicle Count by Location Report"
-msgstr "Rapport du nombre actuel de véhicules par emplacement"
+msgid "Current Vehicle Count by Location"
+msgstr "Nombre actuel de véhicules par emplacement"
+
+#: templates/managers/vehicle_count.html:42
+#: templates/operators/dashboard.html:37
+msgid "Available Vehicles"
+msgstr "Véhicules disponibles"
+
+#: templates/managers/vehicle_count.html:49
+#: templates/operators/dashboard.html:49
+msgid "Defective Vehicles"
+msgstr "Véhicules défectueux"
+
+#: templates/managers/vehicle_count.html:66
+msgid "Number of Vehicles"
+msgstr "Nombre de véhicules"
+
+#: templates/managers/vehicle_count.html:73
+#: templates/operators/vehicle_detail.html:57
+#: templates/operators/vehicle_list.html:99
+msgid "Location"
+msgstr "Emplacement"
 
 #: templates/managers/vehicle_usage.html:16
-msgid "Vehicle Usage Report"
-msgstr "Rapport d'utilisation des véhicules"
+msgid "Usage by Vehicle Type"
+msgstr "Utilisation par type de véhicule"
+
+#: templates/managers/vehicle_usage.html:75
+msgid "trips"
+msgstr "trajets"
 
 #: templates/operators/dashboard.html:25
 msgid "Total Locations"
@@ -580,17 +659,9 @@ msgstr "Total des emplacements"
 msgid "Total Vehicles"
 msgstr "Total des véhicules"
 
-#: templates/operators/dashboard.html:37
-msgid "Available Vehicles"
-msgstr "Véhicules disponibles"
-
 #: templates/operators/dashboard.html:43
 msgid "In-Use Vehicles"
 msgstr "Véhicules en cours d'utilisation"
-
-#: templates/operators/dashboard.html:49
-msgid "Defective Vehicles"
-msgstr "Véhicules défectueux"
 
 #: templates/operators/dashboard.html:55
 msgid "Discharged Vehicles"
@@ -608,11 +679,6 @@ msgstr "Gérer le véhicule"
 #: templates/operators/vehicle_list.html:57
 msgid "Vehicle Code"
 msgstr "Code du véhicule"
-
-#: templates/operators/vehicle_detail.html:57
-#: templates/operators/vehicle_list.html:99
-msgid "Location"
-msgstr "Emplacement"
 
 #: templates/operators/vehicle_detail.html:98
 msgid "Charge Vehicle"
@@ -2265,3 +2331,6 @@ msgstr "Communauté Django"
 #: venv/lib/python3.12/site-packages/django/views/templates/default_urlconf.html:236
 msgid "Connect, get help, or contribute"
 msgstr "Connectez-vous, obtenez de l'aide, ou contribuez"
+
+#~ msgid "Vehicle Usage Report"
+#~ msgstr "Rapport d'utilisation des véhicules"

@@ -32,7 +32,6 @@ footer {
     overflow-y: auto;
 }
 
-
 .alert-container {
     position: fixed;
     top: 60px;
@@ -103,11 +102,9 @@ footer {
     border-radius: 8px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
-
 .stat-card h5 {
     font-weight: 200;
 }
-
 .stat-card .stat-value {
     font-size: 1.5em;
     font-weight: bold;
