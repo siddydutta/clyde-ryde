@@ -90,7 +90,7 @@ class VehicleDetailView(DetailView):
             vehicle.battery_level = 100
             messages.success(
                 request,
-                _('Vehicle %(code)s is charged to 100%!') % {'code': vehicle.code},
+                _('Vehicle %(code)s is charged to 100%%!') % {'code': vehicle.code},
             )
         if 'repair' in request.POST and vehicle.status == 'defective':
             vehicle.status = Vehicle.Status.AVAILABLE

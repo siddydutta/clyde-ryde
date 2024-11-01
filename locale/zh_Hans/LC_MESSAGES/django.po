@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-11-01 14:16+0000\n"
+"POT-Creation-Date: 2024-11-01 15:47+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -107,7 +107,7 @@ msgid "You have been charged £%(trip_cost).2f."
 msgstr "您已被收取 £%(trip_cost).2f。"
 
 #: operators/views.py:93
-msgid "Vehicle %(code)s is charged to 100%!"
+msgid "Vehicle %(code)s is charged to 100%%!"
 msgstr "车辆 %(code)s 已充电至100%！"
 
 #: operators/views.py:98

@@ -168,7 +168,7 @@ class TripDurationView(LoginRequiredMixin, DateFilterMixin, TemplateView):
             )
             writer = csv.writer(response)
             writer.writerow(['Duration (minutes)', 'Count'])
-            for duration, count in zip(context['bin_edges'], context['hist']):
+            for duration, count in zip(context['intervals'], context['hist']):
                 writer.writerow([duration, count])
             return response
         return super().render_to_response(context, **response_kwargs)
