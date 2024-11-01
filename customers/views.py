@@ -2,13 +2,13 @@ from decimal import Decimal
 from django.conf import settings
 from django.contrib import messages
 from django.db import transaction
-from django.db.models import Prefetch
-from django.db.models.query import QuerySet
+from django.db.models import Prefetch, Sum
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 from django.views import View
-from django.views.generic import DetailView, ListView, TemplateView
+from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView
 
 from core.models import Location, Trip, Vehicle
@@ -50,13 +50,25 @@ class Wallet(LoginRequiredMixin, ListView):
         queryset = queryset.filter(trip__user=self.request.user)
         return queryset
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['outstanding'] = Payment.objects.filter(
+            trip__user=self.request.user, status=Payment.Status.PENDING
+        ).aggregate(total=Sum('amount'))['total']
+        print(context['outstanding'])
+        return context
+
     def post(self, request):
         amount = request.POST.get('amount')
         if amount:
             with transaction.atomic():
                 request.user.wallet.balance += Decimal(amount)
                 request.user.wallet.save(update_fields=['balance', 'updated_at'])
-                messages.success(request, f'You have successfully topped up £{amount}.')
+                messages.success(
+                    request,
+                    _('You have successfully topped up £%(amount)s.')
+                    % {'amount': amount},
+                )
         return redirect('wallet')
 
 
@@ -124,7 +136,11 @@ class RentVehicleView(LoginRequiredMixin, CreateView):
         )
         vehicle.status = Vehicle.Status.IN_USE
         vehicle.save(update_fields=['status'])
-        messages.success(request, f'You have successfully rented {vehicle.type.model}.')
+        messages.success(
+            request,
+            _('You have successfully rented %(model)s.')
+            % {'model': vehicle.type.model},
+        )
         return redirect('trip_detail', pk=trip.pk)
 
 
@@ -159,11 +175,13 @@ class ReturnVehicleView(LoginRequiredMixin, View):
                         payment.complete_payment()
                         messages.success(
                             request,
-                            f'Trip completed! You have been charged £{trip_cost:.2f}.',
+                            _('Trip completed! You have been charged £%(trip_cost).2f.')
+                            % {'trip_cost': trip_cost},
                         )
                     else:
                         messages.error(
-                            request, 'Insufficient balance. Please top-up your wallet.'
+                            request,
+                            _('Insufficient balance. Please top-up your wallet.'),
                         )
         return redirect('trip_detail', pk=trip.pk)
 
@@ -172,11 +190,11 @@ class ReportVehicleView(LoginRequiredMixin, View):
     def post(self, request, trip_id: int):
         trip = get_object_or_404(Trip, id=trip_id, user=request.user)
         if trip.vehicle.status == Vehicle.Status.DEFECTIVE:
-            messages.error(request, 'The vehicle is already reported!')
+            messages.error(request, _('The vehicle is already reported!'))
         else:
             trip.vehicle.status = Vehicle.Status.DEFECTIVE
             trip.vehicle.save(update_fields=['status'])
-            messages.success(request, 'The vehicle has been reported as defective.')
+            messages.success(request, _('The vehicle has been reported as defective.'))
         return redirect('trip_detail', pk=trip.pk)
 
 
@@ -189,10 +207,11 @@ class TripPayment(LoginRequiredMixin, View):
                 payment.complete_payment()
                 messages.success(
                     request,
-                    f'You have been charged £{trip_cost:.2f}.',
+                    _('You have been charged £%(trip_cost).2f.')
+                    % {'trip_cost': trip_cost},
                 )
             else:
                 messages.error(
-                    request, 'Insufficient balance. Please top-up your wallet.'
+                    request, _('Insufficient balance. Please top-up your wallet.')
                 )
         return redirect('trip_detail', pk=payment.trip.pk)

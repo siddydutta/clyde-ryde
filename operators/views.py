@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.db.models import Count
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
+from django.utils.translation import gettext_lazy as _
 from django.views.generic import DetailView, ListView, TemplateView
 
 from core.models import Location, Vehicle
@@ -87,13 +88,20 @@ class VehicleDetailView(DetailView):
             if vehicle.status == Vehicle.Status.DISCHARGED:
                 vehicle.status = Vehicle.Status.AVAILABLE
             vehicle.battery_level = 100
-            messages.success(request, f'Vehicle {vehicle.code} is charged to 100%!')
+            messages.success(
+                request,
+                _('Vehicle %(code)s is charged to 100%!') % {'code': vehicle.code},
+            )
         if 'repair' in request.POST and vehicle.status == 'defective':
             vehicle.status = Vehicle.Status.AVAILABLE
-            messages.success(request, f'Vehicle {vehicle.code} is repaired!')
+            messages.success(
+                request, _('Vehicle %(code)s is repaired!') % {'code': vehicle.code}
+            )
         if 'change_location' in request.POST and vehicle.status != 'in_use':
             new_location_id = request.POST.get('new_location')
             vehicle.location_id = new_location_id
-            messages.success(request, f'Vehicle {vehicle.code} is moved!')
+            messages.success(
+                request, _('Vehicle %(code)s is moved!') % {'code': vehicle.code}
+            )
         vehicle.save()
         return redirect(self.get_success_url())

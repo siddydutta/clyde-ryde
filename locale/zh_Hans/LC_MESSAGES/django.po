@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-28 00:50+0000\n"
+"POT-Creation-Date: 2024-11-01 14:16+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -69,6 +69,56 @@ msgstr "损坏"
 #: customers/models.py:59
 msgid "Good"
 msgstr "良好"
+
+#: customers/views.py:69
+#, fuzzy, python-format
+#| msgid "You have been successfully logged out."
+msgid "You have successfully topped up £%(amount)s."
+msgstr "您已成功登出。"
+
+#: customers/views.py:141
+#, fuzzy, python-format
+#| msgid "You have been successfully logged out."
+msgid "You have successfully rented %(model)s."
+msgstr "您已成功登出。"
+
+#: customers/views.py:178
+#, python-format
+msgid "Trip completed! You have been charged £%(trip_cost).2f."
+msgstr "行程已完成！您已被收取 £%(trip_cost).2f。"
+
+#: customers/views.py:184 customers/views.py:215
+msgid "Insufficient balance. Please top-up your wallet."
+msgstr "余额不足。请充值您的钱包。"
+
+#: customers/views.py:193
+#, fuzzy
+#| msgid "Vehicle Usage Report"
+msgid "The vehicle is already reported!"
+msgstr "车辆使用报告"
+
+#: customers/views.py:197
+msgid "The vehicle has been reported as defective."
+msgstr "车辆已被报告为故障。"
+
+#: customers/views.py:210
+#, python-format
+msgid "You have been charged £%(trip_cost).2f."
+msgstr "您已被收取 £%(trip_cost).2f。"
+
+#: operators/views.py:93
+msgid "Vehicle %(code)s is charged to 100%!"
+msgstr "车辆 %(code)s 已充电至100%！"
+
+#: operators/views.py:98
+#, python-format
+msgid "Vehicle %(code)s is repaired!"
+msgstr "车辆 %(code)s 已修复！"
+
+#: operators/views.py:104
+#, python-format
+msgid "Vehicle %(code)s is moved!"
+msgstr "车辆 %(code)s 已移动！"
 
 #: templates/base.html:48
 msgid "Copyright &copy; 2024 Clyde Ryde - Lab 3-04"
@@ -285,7 +335,7 @@ msgstr "钱包余额"
 msgid "My Trips"
 msgstr "我的行程"
 
-#: templates/customers/dashboard.html:45 templates/customers/wallet.html:65
+#: templates/customers/dashboard.html:45 templates/customers/wallet.html:73
 #: templates/managers/revenue.html:89
 msgid "Date"
 msgstr "日期"
@@ -323,7 +373,7 @@ msgstr "支付状态"
 msgid "Action"
 msgstr "操作"
 
-#: templates/customers/dashboard.html:89 templates/customers/wallet.html:90
+#: templates/customers/dashboard.html:89 templates/customers/wallet.html:98
 #: templates/operators/vehicle_list.html:154
 msgid "View"
 msgstr "查看"
@@ -332,32 +382,32 @@ msgstr "查看"
 msgid "No trips found."
 msgstr "未找到行程。"
 
-#: templates/customers/dashboard.html:107 templates/customers/wallet.html:107
+#: templates/customers/dashboard.html:107 templates/customers/wallet.html:115
 #: templates/operators/vehicle_list.html:171
 msgid "first"
 msgstr "第一页"
 
-#: templates/customers/dashboard.html:111 templates/customers/wallet.html:111
+#: templates/customers/dashboard.html:111 templates/customers/wallet.html:119
 #: templates/operators/vehicle_list.html:175
 msgid "previous"
 msgstr "上一页"
 
-#: templates/customers/dashboard.html:116 templates/customers/wallet.html:116
+#: templates/customers/dashboard.html:116 templates/customers/wallet.html:124
 #: templates/operators/vehicle_list.html:180
 msgid "Page"
 msgstr "页"
 
-#: templates/customers/dashboard.html:116 templates/customers/wallet.html:116
+#: templates/customers/dashboard.html:116 templates/customers/wallet.html:124
 #: templates/operators/vehicle_list.html:180
 msgid "of"
 msgstr "的"
 
-#: templates/customers/dashboard.html:122 templates/customers/wallet.html:122
+#: templates/customers/dashboard.html:122 templates/customers/wallet.html:130
 #: templates/operators/vehicle_list.html:186
 msgid "next"
 msgstr "下一页"
 
-#: templates/customers/dashboard.html:126 templates/customers/wallet.html:126
+#: templates/customers/dashboard.html:126 templates/customers/wallet.html:134
 #: templates/operators/vehicle_list.html:190
 msgid "last"
 msgstr "最后一页"
@@ -372,8 +422,9 @@ msgid "Sort by"
 msgstr "排序方式"
 
 #: templates/customers/location_detail.html:24
-msgid "Rate"
-msgstr "费率"
+#: templates/customers/location_detail.html:73
+msgid "Fare"
+msgstr "费用"
 
 #: templates/customers/location_detail.html:26
 #: templates/customers/location_detail.html:63
@@ -404,10 +455,6 @@ msgstr "型号"
 #: templates/operators/vehicle_detail.html:38
 msgid "Brand"
 msgstr "品牌"
-
-#: templates/customers/location_detail.html:73
-msgid "Fare"
-msgstr "费用"
 
 #: templates/customers/location_detail.html:73
 msgid "hour"
@@ -500,45 +547,49 @@ msgid "My Wallet"
 msgstr "我的钱包"
 
 #: templates/customers/wallet.html:32
+msgid "Outstanding Payments"
+msgstr "未结支付"
+
+#: templates/customers/wallet.html:40
 #: templates/operators/vehicle_detail.html:81
 msgid "Last Updated"
 msgstr "最后更新"
 
-#: templates/customers/wallet.html:38
+#: templates/customers/wallet.html:46
 msgid "Top Up Wallet"
 msgstr "充值钱包"
 
-#: templates/customers/wallet.html:47
+#: templates/customers/wallet.html:55
 msgid "Enter amount"
 msgstr "输入金额"
 
-#: templates/customers/wallet.html:52
+#: templates/customers/wallet.html:60
 msgid "Top Up Now"
 msgstr "立即充值"
 
-#: templates/customers/wallet.html:60
+#: templates/customers/wallet.html:68
 msgid "My Payments"
 msgstr "我的支付"
 
-#: templates/customers/wallet.html:66
+#: templates/customers/wallet.html:74
 msgid "Amount"
 msgstr "金额"
 
-#: templates/customers/wallet.html:67
+#: templates/customers/wallet.html:75
 #: templates/operators/vehicle_detail.html:42
 #: templates/operators/vehicle_list.html:85
 msgid "Status"
 msgstr "状态"
 
-#: templates/customers/wallet.html:68
+#: templates/customers/wallet.html:76
 msgid "Completed At"
 msgstr "完成时间"
 
-#: templates/customers/wallet.html:69
+#: templates/customers/wallet.html:77
 msgid "Trip"
 msgstr "行程"
 
-#: templates/customers/wallet.html:95
+#: templates/customers/wallet.html:103
 msgid "No transactions found."
 msgstr "未找到交易记录。"
 
@@ -607,8 +658,8 @@ msgid "Number of Trips"
 msgstr "行程次数"
 
 #: templates/managers/trip_duration.html:56
-msgid "Trip Duration (minutes)"
-msgstr "行程时长（分钟）"
+msgid "Trip Duration Interval (minutes)"
+msgstr "行程时长间隔（分钟）"
 
 #: templates/managers/vehicle_count.html:16
 msgid "Current Vehicle Count by Location"
@@ -2259,5 +2310,5 @@ msgstr "Django社区"
 msgid "Connect, get help, or contribute"
 msgstr "连接、获取帮助或贡献"
 
-#~ msgid "Vehicle Usage Report"
-#~ msgstr "车辆使用报告"
+#~ msgid "Rate"
+#~ msgstr "费率"

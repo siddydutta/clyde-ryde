@@ -150,10 +150,13 @@ class TripDurationView(LoginRequiredMixin, DateFilterMixin, TemplateView):
         trip_durations = [trip.duration / 60 for trip in query] or [0]
         bin_edges = np.arange(0, max(trip_durations) + 10, 30)  # bins of 30 minutes
         hist, bin_edges = np.histogram(trip_durations, bins=bin_edges)
+        intervals = []
+        for x, y in zip(bin_edges[:-1], bin_edges[1:]):
+            intervals.append(f'{round(x)} - {round(y)}')
 
         context['from_date'] = str(from_date)
         context['to_date'] = str(to_date)
-        context['bin_edges'] = bin_edges[:-1].tolist()
+        context['intervals'] = intervals
         context['hist'] = hist.tolist()
         return context
 

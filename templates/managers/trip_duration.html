@@ -38,7 +38,7 @@
             var chart = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: {{ bin_edges|safe }},
+                    labels: {{ intervals|safe }},
                     datasets: [{
                         label: '{% trans "Number of Trips" %}',
                         data: {{ hist|safe }},
@@ -53,7 +53,7 @@
                             beginAtZero: true,
                             title: {
                                 display: true,
-                                text: '{% trans "Trip Duration (minutes)" %}'
+                                text: '{% trans "Trip Duration Interval (minutes)" %}'
                             },
                             ticks: {
                                 autoSkip: false
