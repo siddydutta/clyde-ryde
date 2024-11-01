@@ -10,3 +10,6 @@ __pycache__/
 
 # Redis Dump File
 dump.rdb
+
+# MacOS Files
+.DS_Store

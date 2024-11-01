@@ -1,4 +1,5 @@
 from django.urls import path
+
 from managers.views import (
     DashboardView,
     LocationPopularity,

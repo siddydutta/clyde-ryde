@@ -1,5 +1,6 @@
 from django.contrib import admin
-from customers.models import Wallet, Payment, Report
+
+from customers.models import Payment, Report, Wallet
 
 
 @admin.register(Wallet)

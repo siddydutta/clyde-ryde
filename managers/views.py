@@ -1,8 +1,8 @@
 from collections import defaultdict
 from itertools import accumulate
 import csv
-import numpy as np
 
+import numpy as np
 from django.conf import settings
 from django.db.models import Count, Q, Sum
 from django.db.models.functions import TruncDate

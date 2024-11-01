@@ -1,4 +1,5 @@
 from django.urls import reverse_lazy
+
 from users.mixins import BaseLoginRequiredMixin
 from users.models import CustomUser
 

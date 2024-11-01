@@ -1,13 +1,14 @@
 from django.urls import path
+
 from customers.views import (
-    LocationListView,
-    LocationDetailView,
     DashboardView,
+    LocationDetailView,
+    LocationListView,
     LoginView,
     RentVehicleView,
-    TripDetailView,
-    ReturnVehicleView,
     ReportVehicleView,
+    ReturnVehicleView,
+    TripDetailView,
     TripPayment,
     Wallet,
 )

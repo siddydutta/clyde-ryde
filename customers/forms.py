@@ -1,5 +1,5 @@
 from django import forms
-from core.models import Trip, Location
+from core.models import Location, Trip
 
 
 class ReturnVehicleForm(forms.ModelForm):
