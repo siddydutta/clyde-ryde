@@ -21,7 +21,7 @@
                     <form method="get" action="" class="d-inline-block me-2">
                         <select name="sort" id="sort" class="form-select w-auto d-inline-block">
                             <option value="" disabled {% if not request.GET.sort %}selected{% endif %}>{% trans "Sort by" %}</option>
-                            <option value="rate" {% if request.GET.sort == "rate" %}selected{% endif %}>{% trans "Rate" %}</option>
+                            <option value="rate" {% if request.GET.sort == "rate" %}selected{% endif %}>{% trans "Fare" %}</option>
                             <option value="battery_level"
                                     {% if request.GET.sort == "battery_level" %}selected{% endif %}>{% trans "Battery Level" %}</option>
                         </select>
@@ -70,7 +70,7 @@
                                                      bg-success
                                                  {% endif %}">{{ vehicle.battery_level }}%</span>
                                     <br>
-                                    <strong>{% trans "Fare" %}"</strong> £{{ vehicle.type.rate|floatformat:"g" }} / {% trans "hour" %}
+                                    <strong>{% trans "Fare" %}:</strong> £{{ vehicle.type.rate|floatformat:"g" }} / {% trans "hour" %}
                                 </p>
                                 <form action="{% url 'rent_vehicle' vehicle.code %}"
                                       method="post"

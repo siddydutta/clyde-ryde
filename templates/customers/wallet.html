@@ -21,19 +21,27 @@
             </div>
 
             <div class="row mb-4">
-                <div class="col-md-4 mb-3">
+                <div class="col-md-3 mb-3">
                     <div class="stat-card p-3 text-center h-100 d-flex align-items-center justify-content-center flex-column">
                         <h5 class="text-muted">{% trans "Wallet Balance" %}</h5>
                         <h3 class="stat-value">£{{ user.wallet.balance|floatformat:2 }}</h3>
                     </div>
                 </div>
-                <div class="col-md-4 mb-3">
+                <div class="col-md-3 mb-3">
+                    <div class="stat-card p-3 text-center h-100 d-flex align-items-center justify-content-center flex-column">
+                        <h5 class="text-muted">{% trans "Outstanding Payments" %}</h5>
+                        <h3 class="stat-value {% if outstanding %}text-danger{% endif %}">
+                            £{{ outstanding|default_if_none:0|floatformat:2 }}
+                        </h3>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
                     <div class="stat-card p-3 text-center h-100 d-flex align-items-center justify-content-center flex-column">
                         <h5 class="text-muted">{% trans "Last Updated" %}</h5>
                         <h3 class="stat-value">{{ user.wallet.updated_at|date:"j M Y, H:i" }}</h3>
                     </div>
                 </div>
-                <div class="col-md-4 mb-3">
+                <div class="col-md-3 mb-3">
                     <div class="stat-card p-3 text-center h-100">
                         <h5 class="text-muted">{% trans "Top Up Wallet" %}</h5>
                         <form id="topup-form" method="post" action="{% url 'wallet' %}">

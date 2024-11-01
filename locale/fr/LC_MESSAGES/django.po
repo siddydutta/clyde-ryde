@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-10-28 00:50+0000\n"
+"POT-Creation-Date: 2024-11-01 14:16+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -69,6 +69,54 @@ msgstr "Cassé"
 #: customers/models.py:59
 msgid "Good"
 msgstr "Bon"
+
+#: customers/views.py:69
+#, fuzzy, python-format
+#| msgid "You have been successfully logged out."
+msgid "You have successfully topped up £%(amount)s."
+msgstr "Vous avez été déconnecté avec succès."
+
+#: customers/views.py:141
+#, fuzzy, python-format
+#| msgid "You have been successfully logged out."
+msgid "You have successfully rented %(model)s."
+msgstr "Vous avez été déconnecté avec succès."
+
+#: customers/views.py:178
+#, python-format
+msgid "Trip completed! You have been charged £%(trip_cost).2f."
+msgstr "Trajet terminé ! Vous avez été facturé de £%(trip_cost).2f."
+
+#: customers/views.py:184 customers/views.py:215
+msgid "Insufficient balance. Please top-up your wallet."
+msgstr "Solde insuffisant. Veuillez recharger votre portefeuille."
+
+#: customers/views.py:193
+msgid "The vehicle is already reported!"
+msgstr "Rapport d'utilisation des véhicules"
+
+#: customers/views.py:197
+msgid "The vehicle has been reported as defective."
+msgstr "Le véhicule a été signalé comme défectueux."
+
+#: customers/views.py:210
+#, python-format
+msgid "You have been charged £%(trip_cost).2f."
+msgstr "Vous avez été facturé de £%(trip_cost).2f."
+
+#: operators/views.py:93
+msgid "Vehicle %(code)s is charged to 100%!"
+msgstr "Le véhicule %(code)s est chargé à 100% !"
+
+#: operators/views.py:98
+#, python-format
+msgid "Vehicle %(code)s is repaired!"
+msgstr "Le véhicule %(code)s est réparé !"
+
+#: operators/views.py:104
+#, python-format
+msgid "Vehicle %(code)s is moved!"
+msgstr "Le véhicule %(code)s est déplacé !"
 
 #: templates/base.html:48
 msgid "Copyright &copy; 2024 Clyde Ryde - Lab 3-04"
@@ -294,7 +342,7 @@ msgstr "Solde du portefeuille"
 msgid "My Trips"
 msgstr "Mes trajets"
 
-#: templates/customers/dashboard.html:45 templates/customers/wallet.html:65
+#: templates/customers/dashboard.html:45 templates/customers/wallet.html:73
 #: templates/managers/revenue.html:89
 msgid "Date"
 msgstr "Date"
@@ -332,7 +380,7 @@ msgstr "Statut du paiement"
 msgid "Action"
 msgstr "Action"
 
-#: templates/customers/dashboard.html:89 templates/customers/wallet.html:90
+#: templates/customers/dashboard.html:89 templates/customers/wallet.html:98
 #: templates/operators/vehicle_list.html:154
 msgid "View"
 msgstr "Voir"
@@ -341,32 +389,32 @@ msgstr "Voir"
 msgid "No trips found."
 msgstr "Aucun trajet trouvé."
 
-#: templates/customers/dashboard.html:107 templates/customers/wallet.html:107
+#: templates/customers/dashboard.html:107 templates/customers/wallet.html:115
 #: templates/operators/vehicle_list.html:171
 msgid "first"
 msgstr "premier"
 
-#: templates/customers/dashboard.html:111 templates/customers/wallet.html:111
+#: templates/customers/dashboard.html:111 templates/customers/wallet.html:119
 #: templates/operators/vehicle_list.html:175
 msgid "previous"
 msgstr "précédent"
 
-#: templates/customers/dashboard.html:116 templates/customers/wallet.html:116
+#: templates/customers/dashboard.html:116 templates/customers/wallet.html:124
 #: templates/operators/vehicle_list.html:180
 msgid "Page"
 msgstr "Page"
 
-#: templates/customers/dashboard.html:116 templates/customers/wallet.html:116
+#: templates/customers/dashboard.html:116 templates/customers/wallet.html:124
 #: templates/operators/vehicle_list.html:180
 msgid "of"
 msgstr "de"
 
-#: templates/customers/dashboard.html:122 templates/customers/wallet.html:122
+#: templates/customers/dashboard.html:122 templates/customers/wallet.html:130
 #: templates/operators/vehicle_list.html:186
 msgid "next"
 msgstr "suivant"
 
-#: templates/customers/dashboard.html:126 templates/customers/wallet.html:126
+#: templates/customers/dashboard.html:126 templates/customers/wallet.html:134
 #: templates/operators/vehicle_list.html:190
 msgid "last"
 msgstr "dernier"
@@ -381,7 +429,8 @@ msgid "Sort by"
 msgstr "Trier par"
 
 #: templates/customers/location_detail.html:24
-msgid "Rate"
+#: templates/customers/location_detail.html:73
+msgid "Fare"
 msgstr "Tarif"
 
 #: templates/customers/location_detail.html:26
@@ -413,10 +462,6 @@ msgstr "Modèle"
 #: templates/operators/vehicle_detail.html:38
 msgid "Brand"
 msgstr "Marque"
-
-#: templates/customers/location_detail.html:73
-msgid "Fare"
-msgstr "Tarif"
 
 #: templates/customers/location_detail.html:73
 msgid "hour"
@@ -509,45 +554,49 @@ msgid "My Wallet"
 msgstr "Mon portefeuille"
 
 #: templates/customers/wallet.html:32
+msgid "Outstanding Payments"
+msgstr "Paiements en attente"
+
+#: templates/customers/wallet.html:40
 #: templates/operators/vehicle_detail.html:81
 msgid "Last Updated"
 msgstr "Dernière mise à jour"
 
-#: templates/customers/wallet.html:38
+#: templates/customers/wallet.html:46
 msgid "Top Up Wallet"
 msgstr "Recharger le portefeuille"
 
-#: templates/customers/wallet.html:47
+#: templates/customers/wallet.html:55
 msgid "Enter amount"
 msgstr "Entrez le montant"
 
-#: templates/customers/wallet.html:52
+#: templates/customers/wallet.html:60
 msgid "Top Up Now"
 msgstr "Recharger maintenant"
 
-#: templates/customers/wallet.html:60
+#: templates/customers/wallet.html:68
 msgid "My Payments"
 msgstr "Mes paiements"
 
-#: templates/customers/wallet.html:66
+#: templates/customers/wallet.html:74
 msgid "Amount"
 msgstr "Montant"
 
-#: templates/customers/wallet.html:67
+#: templates/customers/wallet.html:75
 #: templates/operators/vehicle_detail.html:42
 #: templates/operators/vehicle_list.html:85
 msgid "Status"
 msgstr "Statut"
 
-#: templates/customers/wallet.html:68
+#: templates/customers/wallet.html:76
 msgid "Completed At"
 msgstr "Terminé à"
 
-#: templates/customers/wallet.html:69
+#: templates/customers/wallet.html:77
 msgid "Trip"
 msgstr "Trajet"
 
-#: templates/customers/wallet.html:95
+#: templates/customers/wallet.html:103
 msgid "No transactions found."
 msgstr "Aucune transaction trouvée."
 
@@ -616,8 +665,8 @@ msgid "Number of Trips"
 msgstr "Nombre de trajets"
 
 #: templates/managers/trip_duration.html:56
-msgid "Trip Duration (minutes)"
-msgstr "Durée du trajet (minutes)"
+msgid "Trip Duration Interval (minutes)"
+msgstr "Intervalle de durée du trajet (minutes)"
 
 #: templates/managers/vehicle_count.html:16
 msgid "Current Vehicle Count by Location"
@@ -2332,5 +2381,5 @@ msgstr "Communauté Django"
 msgid "Connect, get help, or contribute"
 msgstr "Connectez-vous, obtenez de l'aide, ou contribuez"
 
-#~ msgid "Vehicle Usage Report"
-#~ msgstr "Rapport d'utilisation des véhicules"
+#~ msgid "Rate"
+#~ msgstr "Tarif"
