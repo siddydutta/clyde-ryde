@@ -1,15 +1,14 @@
+from django.contrib import messages
 from django.contrib.auth import login
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LoginView, LogoutView
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, TemplateView
-from django.contrib import messages
 from django.utils.translation import gettext_lazy as _
-from users.models import CustomUser
-
+from django.views.generic import CreateView, TemplateView
 
 from users.forms import CustomerRegistrationForm
+from users.models import CustomUser
 
 
 class CustomerRegisterView(CreateView):

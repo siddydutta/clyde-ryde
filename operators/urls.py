@@ -1,4 +1,5 @@
 from django.urls import path
+
 from operators.views import DashboardView, LoginView, VehicleDetailView, VehicleListView
 
 urlpatterns = [
