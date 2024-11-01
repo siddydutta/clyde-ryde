@@ -15,7 +15,7 @@
     <div class="content">
         <div class="container d-flex justify-content-between align-items-start">
             <h2 class="mb-0">{% trans "Location Popularity Heatmap" %}</h2>
-            <a href="{% url 'location_popularity' %}?download=csv"
+            <a href="{% url 'location_popularity' %}?from_date={{ from_date }}&to_date={{ to_date }}&download=csv"
                class="btn btn-cr-dark">{% trans "Download as CSV" %}</a>
         </div>
 
@@ -35,9 +35,9 @@
         var locations_data = [
             {% for location in locations %}
                 {
-                    lat: {{ location.start_location__latitude }},
-                    lng: {{ location.start_location__longitude }},
-                    count: {{ location.count }},
+                    lat: {{ location.start_location__latitude|safe }},
+                    lng: {{ location.start_location__longitude|safe }},
+                    count: {{ location.count|safe }},
                 },
             {% endfor %}
         ]

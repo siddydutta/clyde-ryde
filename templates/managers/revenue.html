@@ -14,7 +14,8 @@
     <div class="content">
         <div class="container d-flex justify-content-between align-items-start">
             <h2 class="mb-0">{% trans "Revenue Report" %}</h2>
-            <a href="{% url 'revenue' %}?download=csv" class="btn btn-cr-dark">{% trans "Download as CSV" %}</a>
+            <a href="{% url 'revenue' %}?from_date={{ from_date }}&to_date={{ to_date }}&download=csv"
+               class="btn btn-cr-dark">{% trans "Download as CSV" %}</a>
         </div>
 
         <div class="container my-4">
