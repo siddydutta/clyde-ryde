@@ -133,7 +133,7 @@
                                         <td>{{ vehicle.get_status_display }}</td>
                                         <td>{{ vehicle.location.name }}</td>
                                         <td>
-                                            <div class="progress" style="height: 20px;">
+                                            <div class="progress position-relative" style="height: 24px;">
                                                 <div class="progress-bar
                                                             {% if vehicle.battery_level < 20 %}
                                                                 bg-danger
@@ -146,7 +146,10 @@
                                                      style="width: {{ vehicle.battery_level }}%"
                                                      aria-valuenow="{{ vehicle.battery_level }}"
                                                      aria-valuemin="0"
-                                                     aria-valuemax="100">{{ vehicle.battery_level }}%</div>
+                                                     aria-valuemax="100"></div>
+                                                <div class="position-absolute w-100 h-100 d-flex align-items-center justify-content-center">
+                                                    <span class="text-dark font-weight-bold">{{ vehicle.battery_level }}%</span>
+                                                </div>
                                             </div>
                                         </td>
                                         <td>
