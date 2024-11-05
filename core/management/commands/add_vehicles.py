@@ -1,4 +1,5 @@
 from django.core.management.base import BaseCommand
+from django.db import IntegrityError
 from core.models import Vehicle, VehicleType, Location
 import random
 
@@ -59,16 +60,19 @@ class Command(BaseCommand):
 
         count = 0
         for _ in range(options['number']):
-            vehicle, created = Vehicle.objects.get_or_create(
-                **{
-                    'code': str(random.randint(100000, 999999)),
-                    'type_id': random.choice(vehicle_type_ids),
-                    'location_id': random.choice(location_ids),
-                    'battery_level': random.randint(10, 100),
-                }
-            )
-            if created:
-                count += 1
+            try:
+                _, created = Vehicle.objects.get_or_create(
+                    **{
+                        'code': str(random.randint(100000, 999999)),
+                        'type_id': random.choice(vehicle_type_ids),
+                        'location_id': random.choice(location_ids),
+                        'battery_level': random.randint(10, 100),
+                    }
+                )
+                if created:
+                    count += 1
+            except IntegrityError:
+                pass
 
         if count == 0:
             self.stdout.write(self.style.WARNING('[ADD VEHICLES] Skipped.'))
