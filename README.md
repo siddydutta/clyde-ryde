@@ -3,6 +3,7 @@
 
 ## Table of Contents
 - [Project Description](#project-description)
+- [Project Artifacts](#project-artifacts)
 - [Installation and Setup (Docker)](#installation-and-setup-docker)
     - [Prerequisites](#0-prerequisites)
     - [1. Clone the Project](#1-clone-the-project)
@@ -31,10 +32,16 @@
 Clyde Ryde is an e-vehicle sharing platform that enables users to locate, rent, and return electric vehicles across various locations. The system is designed for customers to reserve vehicles, operators to manage and maintain the fleet, and managers to access usage reports. Built with **Django**, **PostgreSQL**, and **Redis**, Clyde Ryde provides a seamless experience for all users.
 
 
+## Project Artifacts
+
+* [Project Report](https://gla-my.sharepoint.com/:b:/g/personal/2897074d_student_gla_ac_uk/EYSp1MQy3S5DvJ5eJHhk67gBm7hdQ_ANOIxhkpMmgvCK7w?e=fxPQPb)
+* [Video Report](https://gla-my.sharepoint.com/:v:/g/personal/2897074d_student_gla_ac_uk/EUpNg8sG7AVOtJc68uN0QMIB0NPDJsKu_hxx_cWjjGrwpQ?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=4A6fG5)
+
+
 ## Installation and Setup (Docker)
 
 ### 0. Prerequisites
-Ensure Docker Engine and Docker Compose are installed:
+Ensure [Docker Engine](https://docs.docker.com/engine/install/) and Docker Compose are installed:
 ```bash
 docker --version
 docker-compose --version
@@ -112,7 +119,7 @@ venv\Scripts\activate  # For Windows
 pip install -r requirements.txt
 ```
 
-### 4. Create the Database & User
+### 4. [Optional] Create the Database & User
 ```bash
 chmod +x scripts/init_db.sh
 ./scripts/init_db.sh
