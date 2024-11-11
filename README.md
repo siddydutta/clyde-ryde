@@ -69,7 +69,7 @@ Users can view available vehicles, rent, and return them at selected locations. 
 This repository includes commands to set up and populate the application with sample data, which can be useful for testing and demonstration. This is done automatically if installed using Docker, or can be run manually (see: [Management Commands to Add Dummy Data](#management-commands-to-add-dummy-data)).
 
 ### Sample User Data
-| User Type | Username | Password |
+| Username | User Type | Password |
 | :-------: | :------: | :------: |
 | superuser | admin    | password |
 | john      | customer | password |
