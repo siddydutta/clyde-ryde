@@ -34,8 +34,10 @@ Clyde Ryde is an e-vehicle sharing platform that enables users to locate, rent, 
 
 ## Project Artifacts
 
-* [Project Report](https://gla-my.sharepoint.com/:b:/g/personal/2897074d_student_gla_ac_uk/EYSp1MQy3S5DvJ5eJHhk67gBm7hdQ_ANOIxhkpMmgvCK7w?e=fxPQPb)
-* [Video Report](https://gla-my.sharepoint.com/:v:/g/personal/2897074d_student_gla_ac_uk/EUpNg8sG7AVOtJc68uN0QMIB0NPDJsKu_hxx_cWjjGrwpQ?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=4A6fG5)
+* [Project Specification](/artifacts/project-spec-2024.pdf)
+* [Project Report](/artifacts/Project-Report.pdf)
+* [Video Report](/artifacts/LB03-04-Clyde-Ryde-Video-Report.mp4)
+* [Feedback](/artifacts/LB03-04.pdf)
 
 
 ## Installation and Setup (Docker)
